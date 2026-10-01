@@ -1,0 +1,18 @@
+id: boss_dragon
+title: Ancient Dragon
+name: 远古巨龙（Boss）
+category: monster
+style: stylized_3d
+tags: [boss, dragon, flying, raid]
+aspect_ratio: "16:9"
+count: 2
+notes: 16:9 便于做 Boss 登场立绘与过场。想更精细就加 --model gemini-3-pro-image --image-size 2K。
+prompt: |
+  A stylised 3D render of {name}: a massive ancient dragon covered in
+  overlapping volcanic-black scales, cracked magma glow along the chest and
+  wing joints, four legs, broad membrane wings, crowned horns and a long
+  spiked tail. Pose: {pose}.
+variations:
+  - pose: perched on a rock ledge, wings half folded, head lowered
+  - pose: airborne roar, wings fully spread, chest glow blazing
+negative: cute, baby dragon, cartoon toy

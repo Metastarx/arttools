@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  walk_side —— 侧面行走。给 walk 用，走的动作要「读得出来」。
+  这套项目最常出的问题不是走得不自然，而是「根本没在走」，
+  所以这里把行走循环的四个关键姿势写死了。
+-->
+<prompt title="走路 · 侧面循环（walk）">
+
+  <rule>
+    WALK CYCLE. The clip is one complete walk cycle, played in place, and it must read as
+    walking from the first frame to the last. Go through all four poses in order:
+    contact (both feet apart, front heel down, back toe down), down (front knee bent,
+    hips at their lowest), passing (the back leg swings through, the knee lifted so the
+    foot clears the ground), and up (hips at their highest, both legs nearly straight).
+    Then the same four again with the legs swapped, and close on the pose the clip
+    opened with.
+  </rule>
+
+  <rule>
+    STRIDE. The stride is wide and clearly visible: the front foot lands well in front of
+    the hips and the back foot pushes off well behind them, so the gap between the two
+    feet is roughly one and a half head-widths at the contact pose. He never shuffles
+    with his feet close together.
+  </rule>
+
+  <rule>
+    FEET. The foot that is on the ground stays flat and planted. The foot that is off the
+    ground is lifted clear of the floor, with the knee leading. No foot slides along the
+    ground while it is supposed to be planted.
+  </rule>
+
+  <rule>
+    ARMS AND TORSO. The arms swing opposite to the legs, the forward arm bending at the
+    elbow, and the shoulders counter-rotate a little against the hips. The torso leans
+    forward very slightly at the contact poses and stands up at the passing pose. The
+    head stays level and faces the direction of travel the whole time.
+  </rule>
+
+  <rule>
+    IN PLACE. He walks as if on a treadmill: the feet move backwards under him and the
+    body stays on exactly the same spot of the canvas for the whole clip. He is never
+    translated across the frame, the camera never follows him and he never drifts or
+    changes size.
+  </rule>
+
+</prompt>

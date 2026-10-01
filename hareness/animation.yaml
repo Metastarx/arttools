@@ -1,0 +1,197 @@
+# ===========================================================================
+# animation.yaml —— 动作（序列帧）资源规范
+#
+# 这个文件只管「动作本身」：有哪些动作、每个动作几帧、每一帧摆什么姿势。
+# 背景色 #00F700、原图上限 1024、抠图、裁剪、512/256 尺寸……全部仍然来自
+# hareness/common.yaml，这里不重复写，避免两处规则打架。
+#
+# 参考图（reference）从哪来：
+#   就是同一个角色立绘跑完 gen 之后的 512px 副本：
+#     resource/image/<年月日>/<时间_角色id>/512/<角色id>_01.png
+#   动作帧全部以它为「身份锚点」，所以画出来的还是同一个角色。
+#
+# 动作是可选项，不是所有资源都要出动作图：
+#   1) spec 里写 animations: [idle, walk]  -> gen 时用 --anim 才会顺带生成
+#   2) 什么都不写                          -> 这个资源永远不出动作图
+#   3) 单独跑 python main.py anim <id>      -> 手动指定，随时补
+# ===========================================================================
+
+version: 1
+
+# spec 里写 animations: all / default 时展开成下面这几个动作
+default_clips: [idle, walk, hit]
+
+# ---------------------------------------------------------------------------
+# 【帧间连续性规则】每一帧请求都会带上这一段，是「连续动作」的关键。
+# 一句话总结：第一张参考图锁「是谁」，后面的参考图锁「动作接到哪了」。
+# ---------------------------------------------------------------------------
+continuity: |
+  You are drawing exactly ONE single frame of a short continuous 2D game
+  animation. Do not draw a sprite sheet, a strip, a grid, a turnaround sheet or
+  several poses in one image. One image = one frame.
+
+  Reference images, in order:
+  - The FIRST reference image is the official portrait of this character. It is
+    the authority on identity: copy the face, hairstyle, costume design, colours,
+    outline weight, proportions and art style exactly as they are. Do not
+    redesign, restyle, recolour or "improve" anything.
+  - Any FURTHER reference images are the earlier frames of this very animation.
+    Use them only to see where the motion currently is, so that this new frame
+    continues that motion naturally.
+
+  Continuity rules, all mandatory:
+  - Keep one fixed camera: same viewing angle, same distance, same framing.
+    Never pan, zoom, tilt or reframe between frames.
+  - Keep the character exactly the same size in every frame, and keep the feet
+    on the same ground line near the bottom of the canvas.
+  - Keep the character centred in the same place. Only the posture and the limbs
+    move. The body must not drift across the frame.
+  - Keep the light direction, the flat colour palette and the outline weight
+    identical in every frame.
+  - Draw this frame with the same hand as the reference: identical outline weight,
+    identical amount of interior detail, identical flat fills. Do not add hair
+    strands, cloth folds, shading, highlights or texture the reference does not
+    have. It must look like the same artist drew it in the same session, not
+    like a re-drawing or a more polished version of the character.
+  - This frame must read as the immediately following moment of the previous
+    frame: no jump, no teleporting limbs, no change of pose family.
+  - Whole body always visible with a generous even margin, nothing cropped.
+  - Plain flat solid pure green (#00F700) background edge to edge, so it can be
+    keyed out automatically.
+  - No motion blur, no speed lines, no impact sparks, no dust, no ground shadow,
+    no cast shadow, no reflection, no glow, no aura and no extra props that were
+    not in the portrait.
+
+# ---------------------------------------------------------------------------
+# 【动作库】每个动作 = 一次「帧序列」，一帧一次请求。
+#   frames  这一套动作出几帧
+#   loop    true = 首尾要能无缝循环；false = 一次性动作（受击这种）
+#   motion  这个动作整体在干嘛，会写进每一帧的提示词
+#   frames_text 逐帧姿势，必须和 frames 数量一致
+# ---------------------------------------------------------------------------
+clips:
+
+  idle:
+    name: 待机（呼吸）
+    frames: 4
+    loop: true
+    motion: >-
+      A calm standing idle loop, seen from the front. The character stays planted
+      on the spot and only breathes, so the motion is small and subtle.
+    frames_text:
+      - "Frame 1 of 4, the rest pose: standing still and front-facing, weight even
+         on both feet, arms hanging relaxed at the sides, chest at rest."
+      - "Frame 2 of 4, the inhale: the chest lifts a little and the shoulders rise
+         a few pixels. The head stays level and the feet do not move at all."
+      - "Frame 3 of 4, the exhale: the chest settles back down and the arms drift
+         a few pixels closer to the body, with a tiny tilt of the head."
+      - "Frame 4 of 4, the loop closes: almost back to the rest pose of frame 1 so
+         the cycle repeats without a visible jump."
+
+  walk:
+    name: 走（行走循环）
+    frames: 6
+    loop: true
+    motion: >-
+      A steady six-frame walking cycle, seen from the front, moving forward in
+      place. The stride is small and readable, and the arms swing opposite to the
+      legs. The character must not travel: it walks on the spot so the frames can
+      be looped in a game.
+    frames_text:
+      - "Frame 1 of 6, contact: one leg is forward with that foot flat and the
+         other leg is behind, the arms swing opposite to the legs."
+      - "Frame 2 of 6, down: the hips drop as the weight lands on the front foot,
+         the body at its lowest point of the cycle."
+      - "Frame 3 of 6, passing: the back leg swings forward past the standing leg,
+         the body rises a little, arms at mid-swing."
+      - "Frame 4 of 6, contact mirrored: the other leg is now forward with the
+         opposite arm swinging forward, the mirror of frame 1."
+      - "Frame 5 of 6, down mirrored: the hips drop again as the weight lands on
+         the other foot, the mirror of frame 2."
+      - "Frame 6 of 6, passing mirrored: the back leg swings through, the mirror of
+         frame 3, closing the loop back into frame 1."
+
+  hit:
+    name: 受击
+    frames: 3
+    loop: false
+    motion: >-
+      A short three-frame hit reaction, seen from the front. The character is
+      struck and flinches backwards, then starts to recover. This is one shot, it
+      does not loop, so the last frame has to look ready to return to idle. Both
+      feet stay on the ground for the whole clip: the character is knocked back but
+      never leaves the ground, never jumps and never hops, and the feet stay on the
+      same ground line as the idle stance. The face keeps the small dot eyes of the
+      portrait; only the brows and the mouth change.
+    frames_text:
+      - "Frame 1 of 3, impact: the hit just landed. Both feet stay flat on the ground in the same place as the idle stance. The head snaps back, the brows pinch down and the mouth opens in a grimace while the torso starts to bend backwards from the hips."
+      - "Frame 2 of 3, peak recoil: the upper body is thrown backwards and off balance, but both feet stay flat on the ground and are still in the same place as the idle stance, the knees bending to absorb the force, the arms flung outward and the chin tipped up. The character does not jump, does not hop and does not leave the ground."
+      - "Frame 3 of 3, recovery: the character pulls itself back upright again, still leaning slightly, the arms coming down, both feet flat on the ground in the same place as the idle stance."
+
+  move_left:
+    name: 向左移动 (side-step)
+    frames: 6
+    loop: true
+    motion: >-
+      A steady six-frame sideways stepping cycle that reads as the character
+      moving off toward the LEFT of the screen. The camera is the same front-on
+      camera as the portrait, so the face and the costume stay readable and the
+      character keeps facing the viewer. It leans a little into the direction of
+      travel and crosses one leg over the other in small side steps, the arms
+      swinging low and slightly across the body. The cycle is drawn on the spot
+      so that it loops in place, and the loop closes back into frame 1 without a
+      visible jump.
+    frames_text:
+      - "Frame 1 of 6, the plant: standing front-facing with both feet flat and
+         close together, the weight just starting to shift onto the left foot, the
+         arms low and a little away from the body."
+      - "Frame 2 of 6, the push-off: the right foot pushes off the ground so the
+         hips slide to the left, the left leg reaching out sideways to take the
+         weight, the torso leaning a few degrees to the left."
+      - "Frame 3 of 6, the cross-over: the right leg crosses in front of the left
+         and the hips turn a few degrees, the arms swinging across the body, the
+         head staying level and the eyes still on the viewer."
+      - "Frame 4 of 6, the widest reach: the left leg is planted at the furthest
+         point of the step with the right leg still crossed over it, the body at
+         its most leaning, the arms at the widest point of their swing."
+      - "Frame 5 of 6, the gather: the right leg uncrosses and comes back under
+         the body, the weight settles onto both feet again, the lean unwinding,
+         the arms starting back to the sides."
+      - "Frame 6 of 6, the loop closes: back to the planted stance of frame 1 so
+         the cycle repeats with no visible jump."
+  attack:
+    name: 攻击（挥击）
+    frames: 6
+    loop: false
+    motion: >-
+      A short six-frame melee attack, seen from the front, performed on the spot.
+      The character plants, winds up, swings a wide strike across the body, follows
+      through and then settles back down. This is one shot and it does not loop, so
+      the last frame has to look ready to return to the idle breathing loop. Both
+      feet stay on the ground for the whole clip: the character turns into the swing
+      with the hips but never steps, jumps or hops, and the feet stay on the same
+      ground line as the idle stance.
+    frames_text:
+      - "Frame 1 of 6, ready: the character plants both feet a little wider apart than the idle stance, draws the shoulders back and brings both fists up to chest height with the elbows bent, glaring straight ahead."
+      - "Frame 2 of 6, wind-up: the torso twists a few degrees to one side and that arm pulls back past the hip while the other arm crosses in front of the chest, the weight shifting onto the back foot, the hips loading."
+      - "Frame 3 of 6, the strike sets off: the striking arm whips forward and across the body, the torso twisting back through the hips, the weight stepping onto the front foot, the other arm swinging behind for balance."
+      - "Frame 4 of 6, full extension: the striking arm is fully extended straight ahead with the fist closed, the body leaning into it, the front knee bent, the follow-through carrying the torso a little further round."
+      - "Frame 5 of 6, recovery: the striking arm folds back in towards the chest, the torso comes back to the centre, the weight settles onto both feet and the shoulders drop."
+      - "Frame 6 of 6, settle: back to the planted neutral stance with the arms coming down to the sides, matching frame 1 of the idle loop so the clip can blend straight back into breathing."
+
+  dead:
+    name: 死亡
+    frames: 5
+    loop: false
+    motion: >-
+      A five-frame death, seen from the front. The character is beaten, all the
+      strength leaves the body, the knees give way and it collapses down onto the
+      ground, ending as a limp heap. This is one shot and it does not loop: the last
+      frame is the final pose of the body and every frame has to stay fully inside
+      the canvas with the character keeping its place near the bottom of the frame.
+    frames_text:
+      - "Frame 1 of 5, the last hit: the body jerks backwards, the knees buckle a little, the head falls forward and both arms hang loose and heavy at the sides."
+      - "Frame 2 of 5, losing the balance: the character is dropping, the knees deeply bent, the torso folding forward and the arms swinging lifelessly in front of the body."
+      - "Frame 3 of 5, the knees give way: the character is almost down on the ground, one knee nearly touching, the body sagging to one side and the head lolling over."
+      - "Frame 4 of 5, the fall: the body tips over sideways towards the floor, the shoulder leading the fall, the limbs trailing behind the movement."
+      - "Frame 5 of 5, resting on the ground: the character lies collapsed on the floor, limp and motionless, the whole silhouette low and flat, still fully inside the canvas and not cut off by any edge."

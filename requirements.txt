@@ -1,0 +1,14 @@
+# Core runtime dependencies for the art pipeline
+requests>=2.31.0
+python-dotenv>=1.0.0
+PyYAML>=6.0.1
+
+# Green-screen keying, cropping and the 512/256 delivery copies (src/chroma.py)
+Pillow>=10.0.0
+numpy>=1.24
+# Connected-component labelling and the distance transform the keyer needs
+scipy>=1.10
+
+# Cutting a Seedance clip into frames (src/video.py, stage 5)
+imageio>=2.31
+imageio-ffmpeg>=0.4.9

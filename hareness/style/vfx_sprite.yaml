@@ -1,0 +1,14 @@
+id: vfx_sprite
+name: 特效图层
+# 画风来自 style/_common.yaml（自动继承）
+prompt_prefix: >-
+  Game VFX sprite drawn in the project's ink-line language: chunky stylised 2D
+  effect shapes with a bright hot core, an ink-line outer contour and a
+  colourful falloff, readable as a small element on screen.
+quality_suffix: >-
+  Centered isolated element, flat solid pure green (#00F700) background, crisp silhouette,
+  no scene, no ground, no characters, ready for automatic keying.
+negative: >-
+  text, watermark, signature, characters, creatures, environment, ground plane,
+  frame, border, blurry, photo, lens flare artifacts
+aspect_ratio: "1:1"

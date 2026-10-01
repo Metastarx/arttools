@@ -1,0 +1,23 @@
+id: prop_spellbook_red
+title: Red Spellbook
+name: 红皮魔典（道具·国风墨线）
+category: item
+style: inkline_2d
+tags: [prop, item, book, spellbook, chinese-fantasy]
+aspect_ratio: "1:1"
+count: 2
+notes: 与国风墨线角色同风格的小道具：闭合并微倾的红皮魔典，封面嵌一双神秘又可爱的眼睛。
+prompt: |
+  A small closed red spellbook with a pair of expressive eyes embedded on its
+  front cover. The book is slightly old and worn: dark red leather cover, simple
+  black ink outlines, subtle Chinese talisman motifs painted across the cover,
+  a small golden clasp on the side, and a few loose pages peeking out from the
+  bottom edge. The eyes look mysterious but cute, never scary: {eyes}.
+  {detail} The book is closed and shown in a slightly tilted three-quarter view
+  with a clear readable silhouette.
+variations:
+  - detail: The cover is scratched with worn corners and a slightly faded spine.
+    eyes: round white sclera with small dark pupils, gentle half-closed lids and a soft sparkle
+  - detail: A thin gold line frames the cover and one bottom corner is chipped.
+    eyes: narrow curious almond eyes with a faint warm glow inside the pupils
+negative: modern hardcover novel, reading glasses, pencil, bookmark ribbon

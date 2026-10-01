@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>美术流水线控制台</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="dot" id="busy-dot"></span>
+    <h1>美术流水线控制台</h1>
+  </div>
+  <div class="paths" id="paths"></div>
+  <div class="top-actions">
+    <button class="btn ghost" id="btn-archive"
+            title="resource/old —— 旧目录结构留下的归档，只读">归档</button>
+    <button class="btn ghost" id="btn-refresh">刷新</button>
+    <button class="btn" id="btn-run-all">全流程</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="side-head">
+      <div class="root-tabs" id="root-tabs"></div>
+      <input type="search" id="search" placeholder="搜索 run 名字" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="run-list" id="run-list"></div>
+  </aside>
+
+  <main class="main">
+    <div class="run-head" id="run-head"></div>
+    <nav class="stage-tabs" id="stage-tabs"></nav>
+    <div class="stage-body" id="stage-body"></div>
+  </main>
+
+</div>
+
+<footer class="logbar" id="logbar">
+  <div class="log-grip" id="log-grip"
+       title="拖我改日志高度，双击回到默认高度"></div>
+  <div class="log-head" id="log-head">
+    <span class="chev" id="log-chev">&#9662;</span>
+    <span class="log-title">日志</span>
+    <span class="log-status" id="log-status">空闲</span>
+    <span class="spacer"></span>
+    <button class="btn ghost small" id="btn-stop" disabled>停止</button>
+    <button class="btn ghost small" id="btn-clear">清空</button>
+  </div>
+  <div class="log-cmd" id="log-cmd"></div>
+  <pre class="log-lines" id="log-lines"></pre>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox-inner" id="lightbox-inner"></div>
+  <div class="lightbox-cap" id="lightbox-cap"></div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

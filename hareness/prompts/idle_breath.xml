@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  idle_breath —— 站立呼吸。idle 的难点是「几乎不动但不能完全不动」。
+-->
+<prompt title="待机 · 站立呼吸（idle）">
+
+  <rule>
+    BREATHING ONLY. The whole clip is one slow breath in and out: the chest and the
+    shoulders rise a little, hold, and settle back down, and the head dips very slightly
+    with them. There are at most two breaths in the clip, and each one is slow and even.
+  </rule>
+
+  <rule>
+    MICRO MOTION. On top of the breath there is only a small sway of the upper body and
+    a light drift of the loose parts of the clothes and hair, all of it under a few
+    pixels. Nothing snaps, nothing bounces and nothing pops.
+  </rule>
+
+  <rule>
+    STILL FEET. Both feet stay exactly where they are, flat on the same spot of ground,
+    for the whole clip. He does not step, does not shift his weight from one foot to the
+    other, does not turn, does not look around and does not raise his arms.
+  </rule>
+
+  <rule>
+    CLOSES. The last frame is the same pose as the first frame, so the clip loops.
+  </rule>
+
+</prompt>

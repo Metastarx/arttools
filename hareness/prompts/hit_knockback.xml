@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  hit_knockback —— 受击后仰再回到站姿。首尾同姿势，方便接回 idle。
+-->
+<prompt title="受击 · 后仰回站（hit）">
+
+  <rule>
+    SHAPE OF THE REACTION. The clip starts on his ordinary standing pose, then he is hit
+    and snaps backwards - the head jerks back, the chin comes up, the shoulders hunch and
+    the arms fly up and back - he holds that for a moment at the extreme of the reaction,
+    and then he settles back down and finishes on exactly the standing pose the clip
+    started on.
+  </rule>
+
+  <rule>
+    TIMING. The snap is fast - two or three frames from standing to the extreme - and the
+    settle afterwards is slow, using the rest of the clip. He must not bounce back and
+    forth and must not keep wobbling after he has settled.
+  </rule>
+
+  <rule>
+    ONE STEP BACK. He takes one short step backwards with one foot as he is knocked back,
+    and that is the only travel in the clip: he does not slide, does not run backwards and
+    never leaves the frame. His head stays inside the safe margin at the extreme of the
+    reaction - the pose is compressed backwards, not enlarged.
+  </rule>
+
+  <rule>
+    HIT WITHOUT EFFECTS. The blow itself is not drawn: no attacker, no weapon, no impact
+    star, no flash, no screen shake, no speed lines and no blood. Only his body reacts.
+  </rule>
+
+  <rule>
+    CLOSES. The last frame is the same pose as the first frame, so the clip returns to
+    idle cleanly.
+  </rule>
+
+</prompt>

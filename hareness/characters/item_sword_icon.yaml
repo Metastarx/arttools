@@ -1,0 +1,19 @@
+id: item_sword_icon
+title: Longsword
+name: 长剑图标（装备）
+category: item
+style: ui_icon
+tags: [item, weapon, sword, equipment, icon]
+aspect_ratio: "1:1"
+count: 3
+prompt: |
+  A game item icon of {name}: a single upright longsword seen straight on, a
+  {material} blade, {hilt} crossguard and grip, tip pointing up, a thin
+  metallic sheen running along the edge.
+variations:
+  - material: plain iron with light scratches
+    hilt: a simple leather-wrapped grip
+  - material: polished steel with a mirror-bright edge
+    hilt: silver fittings with a blue gemstone pommel
+  - material: molten gold with glowing runes
+    hilt: ornate dragon-winged guard

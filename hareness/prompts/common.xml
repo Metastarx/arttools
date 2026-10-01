@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  common —— 常驻。每次生成视频都会带上这一段，别的预设可以换，这个不换。
+  页面上「视频输入」里它是勾死不可取消的；命令行里也自动带上，不用写 preset 参数。
+
+  这里写的都是「风格一致性」相关的硬约束：上一轮生成最常丢的就是这几条。
+  改这里不用改代码，随便改。
+-->
+<prompt title="通用约束（常驻，风格一致性）">
+
+  <rule>
+    LINE. The character is drawn with a single, even, pure-black outline that runs
+    unbroken around the whole silhouette - the hair, the face, the ears, the arms, the
+    fingers, the clothes, the shoes and every accessory he carries. That outline keeps
+    exactly the same thickness and the same pure black in every frame of the clip. It
+    must never thin out, never break apart where a limb moves fast, and the flat colour
+    inside it must never bleed over it or grow past it.
+  </rule>
+
+  <rule>
+    FLAT FILL. Every colour inside the outline stays a flat, unshaded, untextured field
+    of exactly the same colour as the reference image. No gradient, no soft shading, no
+    drop shadow, no cast shadow, no highlight, no rim light, no ambient occlusion, no
+    dithering, no noise and no texture. Colour is filled in and left alone.
+  </rule>
+
+  <rule>
+    SAME CHARACTER. Every frame shows the identical character as the reference image:
+    the same proportions, the same length of limb, the same size of head, the same hair
+    shape, the same face, the same eyes, the same expression, the same clothes with the
+    same number of visible details and the same accessories. He is never restyled,
+    never redrawn, never aged, never slimmed, never made more or less detailed, and no
+    detail is invented that is not in the reference image.
+  </rule>
+
+  <rule>
+    NOTHING ELSE. Nothing is added to the scene: no second character, no extra limb, no
+    weapon or prop that the reference does not already show, no particle effect, no
+    speed line, no motion blur, no impact frame, no dust, no spark, no text, no number,
+    no logo and no watermark.
+  </rule>
+
+  <rule>
+    BACKDROP UNTOUCHED. The flat green background is left exactly as it is. The
+    character never casts a shadow on it, never smears into it and never drags a
+    trailing edge through it.
+  </rule>
+
+</prompt>

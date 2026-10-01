@@ -1,0 +1,14 @@
+id: ui_icon
+name: UI 图标 / 道具图标
+# 画风来自 style/_common.yaml（自动继承）
+prompt_prefix: >-
+  Game UI icon drawn in the project's ink-line language: one bold simplified
+  shape, thick hand-drawn outline, strong silhouette that stays readable at
+  64x64 pixels, straight-on view, single object only.
+quality_suffix: >-
+  Perfectly centered, generous padding, flat solid pure green (#00F700) background,
+  crisp edges, high contrast, no cast shadow on the background.
+negative: >-
+  text, letters, numbers, watermark, signature, drop shadow, frame, border,
+  multiple objects, blurry, photo, cluttered detail, human hands
+aspect_ratio: "1:1"

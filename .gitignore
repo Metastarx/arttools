@@ -1,0 +1,48 @@
+# local secrets
+.env
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# ---------------------------------------------------------------------------
+# art assets
+#
+# resource is the work tree: every run in it can be redrawn from the prompt
+# harness, so none of it belongs in the repository. The folders stay, the
+# contents do not.
+# ---------------------------------------------------------------------------
+resource/**
+!resource/image/
+!resource/image/.gitkeep
+!resource/video/
+!resource/video/.gitkeep
+
+# origin is what somebody picked and kept by hand - your own artwork, not the
+# tool. If you would rather ship it with the project, delete the next block.
+origin/**
+!origin/image/
+!origin/image/.gitkeep
+!origin/video/
+!origin/video/.gitkeep
+
+# ---------------------------------------------------------------------------
+# scratch
+#
+# temp is where throwaway work goes: probe output, a one-off script, a keyed sample
+# worth looking at, the log of a server started in the background. It is not part of
+# any run, and every run can be rebuilt from resource alone. The folder stays, its
+# contents do not.
+# ---------------------------------------------------------------------------
+temp/**
+!temp/
+!temp/.gitkeep
+
+# editor / os noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,260 @@
+# ===========================================================================
+# common.yaml —— 全项目唯一真源（Single Source of Truth）
+#
+# 这个文件同时管两件事，换对话 / 换机器 / 换人，只要还用这份文件，
+# 出图效果和最终尺寸规则就完全一致：
+#
+#   1) preamble / requirements / negative  ->  发给图像模型的提示词（人话规则）
+#   2) pipeline / defaults                 ->  给脚本读的机器可读参数
+#
+#   两半必须互相印证：改了上面的话，记得同步下面的数字（每处都标了对应关系）。
+#
+# ---------------------------------------------------------------------------
+# 【新对话怎么用】把下面这句直接发给新对话即可：
+#
+#   「以 hareness/common.yaml 为唯一规范，不要改背景色和尺寸规则，
+#     用 python main.py gen <id> 生成。」
+#
+# 自检：python main.py common   # 打印每次请求都会带上的公共描述 + 生效参数
+# ---------------------------------------------------------------------------
+#
+# 【固定规则速查】（对应下面的 pipeline 块）
+#   背景     纯绿幕 #00F700，实心平涂，代码抠成透明    -> pipeline.background
+#   原图上限 模型返回的原图最长边不超过 1024px         -> pipeline.source
+#   抠图     key_color=#00F700, tolerance=48, 去溢色   -> pipeline.background
+#   裁剪     抠完裁到实际有像素的范围，不留透明边       -> pipeline.crop
+#   交付尺寸 裁剪后再出「最长边 512px」和「最长边 256px」两份 -> pipeline.sizes
+#   大小     标准人类可见高度 512px，其余按比例缩放     -> pipeline.scale
+#   画布     1:1，1024x1024                            -> defaults
+#   输出     PNG（RGBA）                               -> pipeline.background / defaults
+#   参考图   角色 yaml 写了 reference: 后，画风以参考图为准 -> reference_lock / pipeline.reference_mode
+#   五阶段   原画 -> 抠图裁剪 -> 补绿扩边 -> Seedance 视频 -> 截帧抠图裁切  (src/stages.py)
+#   动作     默认生成 idle / walk / hit 三个动画        -> pipeline.video.clips
+#   留白     参考图里角色只占画布 70%，四周全是纯绿      -> pipeline.video_input.fill
+#   提示词   视频的附加提示词在 hareness/prompts/（common 常驻 + 按动作勾）-> src/prompts.py
+# ===========================================================================
+
+version: 5
+enabled: true
+
+# ---------------------------------------------------------------------------
+# 机器可读的参数块：脚本读这里，保证「提示词说的」和「代码做的」是同一套规则。
+# 命令行参数（--key-color / --trim ...）优先级更高，只用于临时实验。
+# ---------------------------------------------------------------------------
+pipeline:
+  # 对应上面 preamble 的 BACKGROUND 段落
+  background:
+    mode: green_screen              # green_screen：出绿幕，再由代码抠掉
+    enabled: true                   # 是否在生成后自动抠图
+    key_color: "#00F700"            # 必须与 prompt 里写的色号完全一致
+    tolerance: 48                   # 抠图容差（0-255，越大抠得越狠）
+    despill: true                   # 去掉边缘残留的绿色溢色
+    prefer_alpha_when_available: true   # 模型能直接出真 alpha 时优先用 alpha
+
+  # 原图上限：约束模型返回的原图最大边长，超过就在本地立刻缩小
+  # （实测这个网关会忽略 size 参数，所以请求里写小尺寸 + 收到后再强制缩一次）
+  source:
+    enabled: true
+    max_side: 1024                  # 最长边像素上限；0 或 enabled: false 表示不限制
+
+  # 对应 requirements 里的裁剪相关条目
+  crop:
+    trim: true                      # 抠完裁到实际有颜色的范围
+    trim_padding: 0                 # 裁剪后保留的透明边（px）
+    alpha_threshold: 8              # 判定「有像素」的 alpha 阈值
+
+  # 交付尺寸：裁剪完成后，再按「最长边」缩放输出固定规格的副本
+  # 例：裁完 728x905 -> 512 规格 412x512；256 规格 206x256
+  # 原图（全分辨率裁剪结果）始终保留，副本放进 512/ 256/ 子目录，不覆盖原图
+  sizes:
+    enabled: true
+    max_sides: [512, 256]           # 最长边像素；想加 1024 就写 [1024, 512, 256]
+    allow_upscale: true             # 原图比目标还小时是否放大（放大会变软，不想放大改 false）
+    resample: lanczos               # nearest / bilinear / bicubic / lanczos
+
+  # 参考图（角色 yaml 里写了 reference: 时生效）
+  #   edit -> 让模型照着参考图重画一张（默认，真正生成）
+  #   copy -> 参考图本身就是资源，只做抠图 / 裁剪 / 512-256 副本，风格 100% 不变
+  reference_mode: edit
+
+  # 对应 preamble 的 SIZE AND SCALE 段落：全局比例基准
+  scale:
+    unit: px
+    human_reference_px: 512         # 标准人类角色的可见高度基准
+    reference_box: "512x512"        # 基准框
+    size_guide:                     # 各类资源的可见高度 = 基准 × 系数
+      small_prop: "0.25-0.50"       # 手持小道具（药水、钥匙）
+      standard_prop: "0.50-0.75"    # 常规道具、图标（剑、书）
+      human_character: "1.00"       # 标准人类角色（≈512px）
+      large_monster: "1.25-2.00"    # 大型怪物
+      boss: "2.00-3.00"             # Boss
+
+
+  # 第 3 步：把 512 原画的透明部分补成纯绿 #00F700，并往外扩出一圈纯绿留白
+  # 留白必须做进图片里：视频模型复制的是参考图的构图，提示词里写「留白」它不听
+  video_input:
+    fill: 0.7                       # 角色占画布高度的比例，其余四周留纯绿
+
+  # 第 4 步：Seedance 生成视频。第 5 步切帧时用下面这几个参数
+  video:
+    clips: [idle, walk, hit]        # 默认这三个动作，可用 --clips 覆盖
+    facing: left                    # 角色朝向（left / right）
+    seconds: 5                      # 3-5 秒即可，够一个循环
+    resolution: 720p
+    models:                         # 每个模型输出到独立子目录，方便对比
+      - doubao-seedance-2-0-260128
+      - doubao-seedance-2-0-fast-260128
+      - doubao-seedance-2-5-260628
+    skip_frames: 2                  # 开头这几帧就是参考图本身，切帧时丢掉
+    flatten_tolerance: 40           # 背景压平容差：H.264 在纯色上有 ±20 噪点
+    # 提示词预设不写在这里 —— 它是 hareness/prompts/ 下的一个个文件（common 常驻，
+    # 其余按动作勾）。页面上「阶段 3 · 视频输入」勾，命令行用 --preset。
+    # 这一块只管「生成视频时的参数」，提示词那半在 src/video.py（内置）+ src/prompts.py（附加）。
+# ---------------------------------------------------------------------------
+# 【发给模型的提示词 · 开头】每次请求都会带上，位置在所有角色描述之前
+# ---------------------------------------------------------------------------
+preamble: |
+  You are producing production-ready 2D game art assets for a Unity project.
+  These are shared project standards: every asset must obey exactly the same rules,
+  so follow them literally and do not improvise around them.
+
+  BACKGROUND (mandatory):
+  - The background must be one flat solid pure green, exactly rgb(0, 247, 0) / #00F700.
+  - Fill every background pixel with that exact value: no shading, no gradient,
+    no texture, no glow, no shadow, no noise, edge to edge right up to the asset outline.
+  - Never draw a checkerboard, transparency grid, alpha pattern, or a white, grey or
+    coloured background of any kind.
+  - Never use #00F700 or any near-pure green anywhere inside the artwork itself
+    (no green gems, green cloth, green eyes, green flames); that colour is reserved
+    for the background and will be removed automatically.
+  - If you are able to output a real alpha channel, prefer a fully transparent
+    background (alpha = 0) instead of the green. Never fake transparency with a
+    checkerboard or a grey grid.
+  - Do not let the silhouette blend into the background: no semi-transparent, blurred
+    or green-tinted pixels along the outer contour. Keep crisp hard edges with
+    controlled anti-aliasing only.
+
+  SIZE AND SCALE (mandatory):
+  - One standard human character occupies a canonical visible area of 512 x 512 pixels.
+    This 512 px human height is the fixed scale ruler of the whole project.
+  - Scale every asset relative to that ruler, judged by its visible bounding box,
+    NOT by the canvas size:
+      small handheld props  ~ 0.25 - 0.50 x human height (128 - 256 px)
+      standard props/icons  ~ 0.50 - 0.75 x human height (256 - 384 px)
+      human characters      ~ 1.00 x human height (about 512 px)
+      large monsters        ~ 1.25 - 2.00 x human height (640 - 1024 px)
+      bosses                ~ 2.00 - 3.00 x human height (1024 - 1536 px)
+  - Do not make every asset the same physical size just because the canvas is square:
+    an apple must not look as large as a dragon.
+  - Keep the asset complete and centred, with even generous margins on all four sides
+    (at least about 8 percent of the canvas on every side). Never crop or cut off
+    any part of the asset.
+
+  COMPOSITION:
+  - Draw exactly one single asset, the full object visible.
+  - Use a consistent orthographic game-art camera with no perspective distortion.
+  - Use a consistent three-quarter view unless the asset specification requests another view.
+  - Use consistent soft lighting from the upper left with gentle ambient fill.
+  - Keep one coherent visual style, outline thickness, colour palette, detail density,
+    camera angle and scale across the whole project.
+  - Do not place the asset on a platform, ground plane or surface.
+  - The asset must stay readable when scaled down to gameplay size.
+  - Never draw text, letters, numbers, watermarks, signatures, logos, or symbols that
+    look like text.
+  - Never draw a UI frame, border, vignette, card, collage or multiple separate objects.
+
+  These standards apply identically to characters, monsters, props, icons, tiles,
+  environments and visual effects.
+
+# ---------------------------------------------------------------------------
+# 【发给模型的提示词 · 结尾】放在所有角色描述之后，作为交付前自检
+# ---------------------------------------------------------------------------
+requirements: |
+  Final checklist before you finish the image:
+
+  - Exactly one complete asset, centred, nothing cropped and nothing touching the canvas edge.
+  - Background is perfectly uniform #00F700 green, or a real alpha channel (alpha = 0)
+    if you can output one. No checkerboard, no white, no grey.
+  - No #00F700 green anywhere inside the artwork itself.
+  - The visible size of the asset follows the 512 px human reference ruler for its category.
+  - Clean readable silhouette, hard outer edges, controlled anti-aliasing, no green fringe.
+  - Cohesive limited colour palette and low-detail hand-drawn 2D game-art density.
+  - No ground contact shadow, cast shadow, reflection, background glow or coloured halo.
+  - No photographic noise, lens flare, motion blur, bloom, vignette or film grain.
+  - No tiny details that disappear at gameplay scale.
+  - The image will be keyed and cropped to its content bounds automatically, so keep the
+    outer contour crisp and the surrounding background clean and empty.
+  - Reply with a single image only. Do not answer with text.
+
+# ---------------------------------------------------------------------------
+# 【固定负面词】会和 style / spec 的 negative 合并去重
+# ---------------------------------------------------------------------------
+negative: >-
+  checkerboard, transparency grid, alpha pattern, white background, grey background,
+  coloured background, gradient background, textured background, green tinted edges,
+  green fringe, green colour inside the subject, scenery, environment, floor, ground,
+  platform, ground shadow, cast shadow, reflection, background glow, coloured halo,
+  text, letters, words, numbers, watermark, signature, logo, username, timestamp,
+  frame, border, UI overlay, card, collage, multiple objects, duplicated subject,
+  multiple views, turnaround sheet, sprite sheet, cropped subject, cut off edges,
+  inconsistent scale, distorted proportions, perspective distortion,
+  blurry, low resolution, jpeg artifacts, oversaturated, harsh noise,
+  photographic, photorealistic, stock photo, lens flare, motion blur, vignette
+
+# ---------------------------------------------------------------------------
+# 【参考图锁】这一次请求只要附带了参考图，就一定会带上下面这段（纯文生图不带）。
+# 作用：把「什么算对」的裁判权从文字挪到图上，立绘和动作帧都必须和参考图同一画风。
+# 想换参考图只改角色 yaml 里的 reference:，这段不用动。
+# ---------------------------------------------------------------------------
+reference_lock: |
+  REFERENCE IMAGE - READ THIS FIRST.
+  Reference images are attached to this request. They - not this text - are the
+  authority on what this character looks like and how the art is drawn.
+
+  - Copy the reference exactly: the same outline weight and line quality, the same
+    flat unshaded fills, the same simplified shapes, the same amount of interior
+    detail, the same facial construction, the same costume pieces, the same
+    colours, the same head-to-body proportion, the same silhouette language.
+  - Do not re-render it and do not "improve" it: no more polish, no more detail,
+    no more anime-like, no more realistic, no more three-dimensional.
+  - Do not add hair strands, fabric folds, highlights, gradients, soft shadows,
+    surface texture, rim light or any detail the reference does not already have.
+  - Reproduce the reference's own drawing quirks instead of normalising them.
+  - Where the written description below and the reference image disagree, the
+    reference image wins.
+
+# preamble 的发送方式：
+# false（默认）-> 合并进 prompt 文本，任何中转平台都能生效
+# true -> gemini 走 systemInstruction，openai 走 system 消息
+send_as_system: false
+
+# ---------------------------------------------------------------------------
+# 画布兜底参数：只有当 spec 和 style 都没写时才生效；写成 null 表示不发送
+# 注意：这是「画布尺寸」，不是「资源大小」——资源大小由 pipeline.scale 约束，
+#       资源在画布里的实际占比靠 prompt 里的比例基准控制，最后再由裁剪定稿。
+# ---------------------------------------------------------------------------
+defaults:
+  aspect_ratio: "1:1"
+  image_size: "1024x1024"
+
+# ---------------------------------------------------------------------------
+# 【给新对话的复制模板】不发给模型，仅供人和 Agent 阅读
+# ---------------------------------------------------------------------------
+reuse:
+  note: >-
+    本文件是唯一规范。换对话、换人、换机器时，只要这个文件不变，出图规格就不变。
+  tell_new_session: >-
+    以 hareness/common.yaml 为唯一规范生成美术资源：背景固定纯绿 #00F700，
+    抠绿成透明后裁剪到内容边界，标准人类角色可见高度 512px，其余资源按此比例缩放。
+    不要修改背景色和尺寸规则，也不要手工改图。
+  commands:
+    - "python main.py common            # 查看每次请求都会带上的公共描述与生效参数"
+    - "python main.py show <id>          # 只看拼好的提示词，不花钱"
+    - "python main.py gen <id>           # 生成（自动抠绿 + 裁剪）"
+    - "python main.py gen <id> -v        # 看抠图与裁剪日志"
+  rules_locked:
+    - "背景色号 #00F700，不改"
+    - "标准人类角色 512px 基准，不改"
+    - "抠图后裁剪到内容边界，不改"
+    - "裁剪后按最长边 512px / 256px 各出一份，不改"
+    - "模型返回的原图最长边不超过 1024px，不改"

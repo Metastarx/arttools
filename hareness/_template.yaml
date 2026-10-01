@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------------------
+# 角色 / 资源提示词模板：复制本文件改名（不要以 _ 开头，否则不会被加载）
+# ---------------------------------------------------------------------------
+id: my_character            # 唯一 id，也是 resource/ 下的文件夹名
+title: My Character         # 英文名（prompt 里的 {name} 会用它）
+name: 我的角色（中文备注）    # 中文备注，只用于日志和列表
+category: character         # character | monster | item | environment | ui | vfx
+style: pixel_art            # 引用 hareness/style/ 里的预设 id
+tags: [hero, melee]         # 标签，可用 {tags} 占位符引用
+aspect_ratio: "1:1"         # 可选：1:1 / 3:4 / 4:3 / 16:9 / 9:16 ...
+# image_size: "2K"          # 可选：部分模型支持 1K / 2K / 4K
+# model: gemini-3-pro-image # 可选：单独指定模型
+# api_style: openai         # 可选：单独指定调用方式
+count: 2                    # 生成几张（不写则按 variations 的数量）
+# reference: [origin/image/main.png]   # 可选：参考母版（相对项目根目录写，换机器也一样）。
+#                           #   写了它，这次请求就走 image-to-image，画风以这张图为准，
+#                           #   并会自动带上 common.yaml 的 reference_lock。
+# reference_mode: edit      # 可选：edit = 照着参考图重画（默认）
+#                           #       copy = 参考图本身就是资源，只做抠图/裁剪/512-256
+# animations: [idle, walk, hit]   # 可选：这个资源要出哪几套动作（见 hareness/animation.yaml）
+#                                  # 不写 = 不出动作图；动作帧用立绘的 512px 副本当参考图
+# animation_hint: |               # 可选：动作帧每一帧都必须保持的角色特征
+#   keep the black topknot and the cream robe exactly as in the portrait
+notes: 备注写这里。
+
+# 主提示词。{xxx} 会被 variations 里的同名字段替换。
+prompt: |
+  描述这个资源的核心外形、材质、配色、视角与用途。 Pose: {pose}.
+
+variations:                 # 每一组就是一次请求；count 比它多时会循环使用
+  - pose: standing idle
+  - pose: attacking
+negative: 这里写这个角色额外要避免的东西

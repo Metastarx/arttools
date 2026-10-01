@@ -1,0 +1,55 @@
+id: hero_idle
+title: Young Wandering Swordsman
+name: 正者（主角·简笔 Q 版立绘 / 全项目参考图）
+category: character
+style: chibi_simple
+tags: [hero, player, chibi, simple, reference]
+aspect_ratio: "1:1"
+count: 1
+
+# 原画：origin/image/ 里的母版（相对项目根目录写，换机器也一样）。
+# 有这一行，立绘就走 image-to-image，画风由这张图决定，而不是由文字决定。
+reference: [origin/image/main.png]
+# edit = 照着参考图重画一张（默认）；copy = 参考图本身就是立绘，只做后处理、风格 100% 不变
+reference_mode: copy
+
+notes: >
+  主角「正者」的立绘，同时是全项目动作资源的参考图，画法对齐 origin/image/main.png。
+  reference: 让这次请求带上原画，并附带 common.yaml 的 reference_lock（以图为准）。
+  两步走：
+    python main.py gen hero_idle           # 立绘：照着 origin/image/main.png 重画 -> 抠绿 -> 裁剪 -> 512/256 副本
+    python main.py anim hero_idle          # 以 512/ 里那张 512px 图为参考图出动作帧
+  也可以一步到位：python main.py gen hero_idle --anim
+  animations: 不写就完全不出动作图（动作是可选步骤）。
+
+# 动作是可选的：这个资源要动作，就在下面列出要哪几套。
+animations: [idle, walk, hit, attack, dead]
+
+# 动作帧额外要盯住的角色特征（每一帧都会带上）
+animation_hint: >
+  keep the black topknot with the vermilion band, the spiky black fringe, the cream
+  crossed-collar robe, the dark sash with the vermilion knot, the black trousers and
+  rounded black shoes, the thick even black outline and the tiny dot eyes under the
+  short angry eyebrows exactly as they are in the portrait.
+
+prompt: |
+  Draw {name} once more, from the attached reference art. Same character, same art
+  style: the same head-to-body proportion, the same thick even black outline, the
+  same flat unshaded colour fills, the same simplified hair shape, the same tiny dot
+  eyes under the short angry eyebrows, the same cream crossed-collar robe with the
+  dark sash and its small vermilion knot, the same black trousers and rounded black
+  shoes. Do not add any detail that is not already in the reference.
+
+  Pose: the neutral standee pose - standing up straight and front-facing, feet
+  slightly apart and flat on the ground, arms relaxed and hanging at the sides,
+  weight even on both feet. A short stubborn expression, not smiling. Nothing in the
+  hands, no weapon, cloth only and no armour.
+
+  Keep the whole body inside the frame with a generous even margin, and keep the
+  background one flat solid pure green (#00F700) from edge to edge.
+
+negative: >-
+  side view, back view, three-quarter view, weapon in hand, extra
+  characters, scenery, floor, detailed muscle anatomy, armour plating, gradient
+  shading, glossy highlights, extra hair strands, complex clothing folds, polished
+  anime illustration, 3D render, text

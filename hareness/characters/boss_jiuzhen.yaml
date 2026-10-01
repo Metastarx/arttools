@@ -1,0 +1,69 @@
+id: boss_jiuzhen
+title: Jiuzhen the Wall Warden
+name: 旧镇（镇守·简笔 Q 版·人形但不成人）
+category: boss
+style: chibi_simple
+tags: [boss, enemy, chibi, simple, guardian]
+aspect_ratio: "1:1"
+count: 1
+
+notes: >
+  镇守「旧镇」的立绘。设计见 Assets/Design~/Characters/镇守.md。
+  记忆点是「人的轮廓 + 甲片的碎片感 + 一直朝着同一个方向」，不是「穿盔甲的将军」。
+  它没有脸：已经想不起自己在替谁看着，所以脸的位置只有一块平的、没有五官的面。
+  动作集与主角同构（idle / walk / hit / attack / dead），文件名落到
+  Chars/Boss/jiuzhen/Body/<状态>.png，动画键是 boss.jiuzhen。
+
+# 动作是可选的：这个资源要动作，就在下面列出要哪几套。
+animations: [idle, walk, hit, attack, dead]
+
+# 动作帧额外要盯住的角色特征（每一帧都会带上）
+animation_hint: >
+  keep the blank faceless head with no eyes, nose or mouth, the soot-black
+  fragment plates hanging loose around the shoulders and hips, the pale ash-grey
+  body, the hands clenched around nothing, the broken outline segments and the
+  thick even black outline exactly as they are in the portrait, and keep it
+  facing the viewer in every single frame - it never turns, never looks around
+  and never changes the direction it is facing.
+
+prompt: |
+  Draw {name} once, full body, as flat 2D game art. Match the project's art
+  style: the same thick even black outline, the same flat unshaded colour
+  fills, the same simplified shapes, the same small limited palette of soot
+  black, pale ash grey and aged beige.
+
+  Pose: standing upright and front-facing in a neutral guard stance, feet
+  planted a little apart, both arms hanging low with the fists closed, the
+  weight even, not walking, not leaning.
+
+  This creature is NOT an armoured general and NOT a cute mascot. It is a
+  guardian that stood still for so long that the job ground itself into its
+  shape. Read it as a human silhouette that is no longer a person:
+
+  - It still has a person's outline: an upright trunk, a head, two arms, two
+    legs, a stance. Keep that outline readable and upright.
+  - The head is a smooth blank plate with NO face at all: no eyes, no nose, no
+    mouth, no brows, no glow, no mask pattern, no helmet crest. Just a flat pale
+    surface with a single thin crack running down one side of it.
+  - There is no real armour. Only a few loose soot-black plate fragments hang
+    around the shoulders, chest and hips, like broken roof tiles that were
+    wired on a very long time ago. They sit unevenly, some tilted, some drifting
+    a little away from the body, leaving gaps of pale body showing through.
+  - Both hands are closed in the shape of gripping something, but the hands are
+    empty; there is nothing in them.
+  - The black outline is not continuous: two or three places along the arms and
+    the skirt of the shape stop and fade into a thin ash haze instead of a
+    clean line.
+  - It faces the viewer and stays facing the viewer. Never turn it to the side.
+
+  The whole body is inside the frame with a generous even margin, and the
+  background is one flat solid pure green (#00F700) from edge to edge.
+
+negative: >-
+  face, facial features, eyes, glowing eyes, mouth, expression, helmet, helmet
+  crest, plume, cape, banner, ornate armour, detailed armour plating, shiny
+  metal, samurai, warlord, general, skeleton, skull, horns, tail, extra limbs,
+  extra arms, ghost, floating, glowing aura, fire, smoke puffs, weapon in hand,
+  scenery, floor, floor line, ground line, shadow, gradient shading, glossy
+  highlights, complex clothing folds, polished anime illustration, 3D render,
+  text

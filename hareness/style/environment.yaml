@@ -1,0 +1,14 @@
+id: environment
+name: 场景道具 / 地块
+# 画风来自 style/_common.yaml（自动继承）
+prompt_prefix: >-
+  Isometric 2D environment asset in the project's ink-line language: hand-drawn
+  ink edges, consistent 30 degree isometric projection, viewed from a high
+  three-quarter angle, drawn so it tiles cleanly with neighbouring tiles.
+quality_suffix: >-
+  Single object centered, flat solid pure green (#00F700) background, even light from the upper left,
+  edges that tile cleanly, crisp read at small size, game-ready asset.
+negative: >-
+  text, watermark, signature, characters, creatures, UI, frame, border,
+  perspective distortion, busy background, photo
+aspect_ratio: "1:1"

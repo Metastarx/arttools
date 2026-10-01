@@ -1,0 +1,19 @@
+id: env_tree_prop
+title: Tree
+name: 树木道具（场景）
+category: environment
+style: environment
+tags: [environment, prop, tree, nature]
+aspect_ratio: "1:1"
+count: 3
+prompt: |
+  A game environment prop of {name}: a single {variety} seen from an isometric
+  high three-quarter angle, {leaf}, a simple trunk with visible bark grooves and
+  a small patch of grass at the base.
+variations:
+  - variety: broad round oak tree
+    leaf: a dense layered green canopy with lighter highlights on top
+  - variety: tall slender pine tree
+    leaf: dark needle clusters stacked in tiers
+  - variety: twisted dead tree
+    leaf: bare grey branches with no leaves

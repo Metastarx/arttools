@@ -1,0 +1,7 @@
+# 全项目 LF。流水线读写文件都按 LF 走（见 AGENTS.md），Windows 上默认的
+# core.autocrlf=true 会把检出变成 CRLF，这条把它按住。
+* text=auto eol=lf
+# 图片是二进制，不让 git 碰
+*.png binary
+*.jpg binary
+*.mp4 binary

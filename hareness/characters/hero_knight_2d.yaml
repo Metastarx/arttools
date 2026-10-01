@@ -1,0 +1,20 @@
+id: hero_knight_2d
+title: Temple Knight
+name: 圣殿骑士（英雄·近战）
+category: character
+style: pixel_art
+tags: [hero, knight, melee, playable]
+aspect_ratio: "1:1"
+count: 3
+notes: 站姿 / 行走 / 挥剑三帧，纯色背景方便抠图后导入 Unity。
+prompt: |
+  A game sprite of {name}: a heavily armoured medieval knight wearing a visored
+  helm with a red plume, a steel breastplate with gold trim, a blue tabard and
+  plate greaves, holding a broadsword in the right hand and a kite shield in
+  the left. Pose: {pose}. Chunky readable armour plates, confident heroic
+  stance, readable at 64x64 pixels.
+variations:
+  - pose: standing idle, sword lowered, shield raised forward
+  - pose: mid walk cycle, one leg forward, sword resting on the shoulder
+  - pose: overhead sword swing, tabard flaring, motion smear on the blade
+negative: modern clothing, firearms, sci-fi armour, bikini armour

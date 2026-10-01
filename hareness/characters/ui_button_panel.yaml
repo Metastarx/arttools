@@ -1,0 +1,21 @@
+id: ui_button_panel
+title: UI Button Plate
+name: UI 按钮底板（界面）
+category: ui
+style: ui_icon
+tags: [ui, button, hud, widget]
+aspect_ratio: "3:2"
+count: 3
+notes: 输出不含文字，之后在 Unity 里叠加 TextMeshPro 文案。
+prompt: |
+  A game UI element: one horizontal rounded rectangular button plate, {state},
+  a carved {material} surface with a subtle bevel, a thin dark outline and an
+  inner highlight along the top edge. No text, no letters, no symbols.
+variations:
+  - state: normal resting state
+    material: warm grey stone
+  - state: hovered and softly glowing
+    material: warm grey stone
+  - state: pressed and inset
+    material: warm grey stone
+negative: text, letters, numbers, icons, characters

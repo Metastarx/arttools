@@ -1,0 +1,19 @@
+id: item_potion_icon
+title: Potion
+name: 药水图标（消耗品）
+category: item
+style: ui_icon
+tags: [item, potion, consumable, icon]
+aspect_ratio: "1:1"
+count: 3
+prompt: |
+  A game item icon of {name}: a single round-bottomed glass potion flask with a
+  cork stopper, the liquid inside glowing {colour}, small bubbles rising, a thin
+  gold band around the neck. {detail}
+variations:
+  - colour: warm red
+    detail: a small white cross embossed on the glass
+  - colour: deep blue
+    detail: tiny star sparkles suspended in the liquid
+  - colour: emerald green
+    detail: a leaf-shaped wax seal pressed into the cork

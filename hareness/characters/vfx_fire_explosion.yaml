@@ -1,0 +1,21 @@
+id: vfx_fire_explosion
+title: Fire Explosion
+name: 火焰爆炸特效
+category: vfx
+style: vfx_sprite
+tags: [vfx, fire, explosion, impact]
+aspect_ratio: "1:1"
+count: 3
+notes: 黑底输出可直接用 Additive 混合，也可用 cutout 去黑底。
+prompt: |
+  A game VFX layer of a {stage} fiery explosion: layered orange, yellow and
+  white flame shapes around a bright hot core, curling smoke wisps at the edges,
+  stylised anime impact look, {shape}.
+variations:
+  - stage: small impact burst
+    shape: a compact round bloom with short spikes
+  - stage: medium blast
+    shape: a mushroom fireball with outward tongues of flame
+  - stage: huge detonation
+    shape: a wide ring of fire with a vertical column of flame
+negative: realistic wildfire, forest, buildings, characters

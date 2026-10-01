@@ -1,0 +1,54 @@
+# ===========================================================================
+# _common.yaml —— 风格基底（Style Base）
+#
+# 作用跟 hareness/common.yaml 一样，但管的是「视觉语言」：
+#   common.yaml  -> 背景色、尺寸基准、构图等「工程规则」
+#   _common.yaml -> 画风、线条、配色、文化元素等「美术风格」
+#
+# 所有 style/*.yaml 预设都会自动继承这里的 prompt_prefix 和 negative，
+# 除非该预设里写了 inherit_common: false。
+#
+# 文件名以下划线开头，所以不会出现在 `python main.py list` 的风格列表里，
+# 也不会被当成一个可选风格。
+#
+# 组装顺序：
+#   common.preamble -> [本文件 prompt_prefix + 预设自己的 prompt_prefix]
+#   -> 角色 prompt -> 预设 quality_suffix -> common.requirements
+#   -> Avoid(本文件 negative + 预设 negative + 角色 negative)
+#
+# 单个预设想剔除基底的某条负面词，就在预设里写：
+#   negative_remove: [pixel art, smooth vector art]
+# ===========================================================================
+
+id: _common
+name: 全项目公共视觉语言（所有风格预设自动继承）
+
+prompt_prefix: |
+  Use the project's established visual style:
+
+  Simplified Chinese ink-line game art with a hand-drawn appearance.
+  Use thick, irregular black outlines and slightly rough brush edges.
+  Use a low-detail design with clear, exaggerated silhouettes.
+  Use flat colour blocks with very light watercolor-like shading.
+  Keep the colour palette limited, muted and cohesive, with occasional
+  vermilion red, dark ink black, aged beige, jade green and desaturated blue.
+  Avoid realistic rendering, complex textures and excessive surface details.
+
+  The style should feel cute, mysterious and slightly uncanny.
+  Preserve strong Chinese cultural identity through simplified traditional
+  clothing, talismans, ritual objects, old books, jade, bronze and folk motifs.
+  Cultural elements should be readable from the silhouette rather than through
+  tiny decorative details.
+
+  The art must look like an independent 2D roguelike game asset,
+  not a realistic illustration, anime character, pixel-art sprite,
+  3D render or highly polished concept-art painting.
+
+negative: >-
+  realistic rendering, photorealistic, highly detailed concept art,
+  polished anime illustration, western cartoon style, pixel art,
+  smooth vector art, glossy 3D render, plastic material,
+  complex texture, excessive ornament, tiny unreadable details,
+  thin clean digital lines, perfectly smooth outlines,
+  cinematic background, dramatic realism, heavy shading,
+  strong rim light, volumetric lighting

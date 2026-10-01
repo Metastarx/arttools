@@ -1,0 +1,35 @@
+id: monster_imp
+title: Small Imp
+name: 小妖（低级怪物·简笔 Q 版·弱鸡反派）
+category: monster
+style: chibi_simple
+tags: [monster, enemy, common, chibi, simple, weak]
+aspect_ratio: "1:1"
+count: 2
+notes: 与 origin/image/main.png 的主角共用简笔 Q 版技法。定位是最低级的杂兵：又凶又弱，外强中干。
+prompt: |
+  A game sprite of {name}, a puny low-level Chinese folk imp, drawn as a
+  front-facing idle game pose. {body} {pose}
+
+  Attitude: it is hostile and mean but clearly weak, the kind of minor mob the
+  player defeats first. Build it scrawny and underfed: thin bony limbs, narrow
+  shoulders, a slight pot belly, a thin neck, sunken cheeks and a small frame
+  that looks fragile. Its fists are small and its stance is a little unsteady,
+  as if it might lose its balance. It still glares at the player with narrowed
+  eyes under a heavy brow shadow, bares a row of small uneven fangs and puffs
+  itself up to look dangerous, so the pose reads as a weak bully trying to
+  intimidate rather than a real threat. Skin is dirty bone-cream, the small
+  horns and tiny claws are soot black. Keep the shapes simple and readable.
+variations:
+  - body: It wears a ragged soot-black waistcloth with a torn dark vermilion sash.
+    pose: Standing idle and front-facing, feet planted apart, both thin arms hanging
+      out from the body with the little claws spread open.
+  - body: It wears a tattered dark grey wrap that is far too big for it, and drags a
+      plain wooden club that is clearly heavier than it can lift.
+    pose: Standing idle and front-facing, hunched, bracing itself on the club,
+      trying to snarl while its arms tremble.
+negative: >-
+  muscular, ripped, defined abs, rippling muscles, broad shoulders, bulky build,
+  tall imposing figure, bodybuilder anatomy, muscle lines, veins, heavy armour,
+  cute, kawaii, blush marks, cheerful smile, friendly expression, round sparkling eyes,
+  plush mascot, oversized weapons, gore, blood, multiple characters, side view, back view

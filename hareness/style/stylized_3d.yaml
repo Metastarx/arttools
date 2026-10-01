@@ -1,0 +1,16 @@
+id: stylized_3d
+name: 风格化 3D 渲染
+# 3D 渲染跟 _common 的「2D 手绘墨线」是两种媒介，所以不继承。
+inherit_common: false
+prompt_prefix: >-
+  Stylised 3D game character render, Pixar-like appeal, clean smooth surfaces,
+  soft PBR materials, subtle subsurface scattering, three point studio lighting,
+  flat solid pure green (#00F700) background, three-quarter view.
+quality_suffix: >-
+  Centered, full body, even margins, sharp edges, high detail,
+  production character-sheet quality.
+negative: >-
+  photorealistic human, uncanny valley, text, watermark, signature,
+  busy background, multiple characters, extra limbs, low poly faceting, noisy ambient occlusion,
+  ink-line illustration, watercolour shading, hand-drawn brush strokes
+aspect_ratio: "1:1"

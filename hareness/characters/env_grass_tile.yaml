@@ -1,0 +1,16 @@
+id: env_grass_tile
+title: Grass Tile
+name: 草地地块（场景）
+category: environment
+style: environment
+tags: [environment, tile, ground, terrain]
+aspect_ratio: "1:1"
+count: 3
+prompt: |
+  A game environment tile of {name}: one square chunk of {season} grass ground
+  with a rocky dirt edge under the top surface, a few pebbles and grass tufts,
+  seen from an isometric high three-quarter angle.
+variations:
+  - season: lush spring green
+  - season: dry golden autumn
+  - season: frost-dusted winter with a light layer of snow

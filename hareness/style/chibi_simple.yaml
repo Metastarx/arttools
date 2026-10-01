@@ -1,0 +1,31 @@
+id: chibi_simple
+name: 简笔 Q 版（对齐 origin/image/main.png 参考角色）
+# 继承 style/_common.yaml 的国风视觉语言，这里只写「技法」层面的特征：
+# 比例、线条、上色、五官画法、配色。情绪/可爱或凶狠由每个角色的描述决定。
+# 参考图：origin/image/main.png（相对项目根目录）
+prompt_prefix: >-
+  Match the project's reference character sheet (the chibi hero in origin/image/main.png).
+  Simple super-deformed chibi design: a large round head on a short body, about
+  two head-heights tall in total. Thick black outline of even weight with
+  rounded ends, drawn smoothly rather than scratchy. Flat colour fills with no
+  shading, or at most one tiny hint of shading. Facial features are built from a
+  few strokes only (small eyes, short eyebrows, a tiny mouth). Rounded simplified
+  shapes, almost no interior detail, no complex clothing folds. Palette limited
+  to black, off-white cream, warm grey and one small vermilion red accent used on
+  a sash, headband or trim.
+  The new asset must look like a member of the same cast as this reference
+  character and share its silhouette language.
+  Mood and expression are defined by the individual asset description below -
+  do not default to a cute or cheerful expression.
+quality_suffix: >-
+  Single centered character, full body visible, generous even margins, clean
+  readable silhouette, isolated on a flat solid pure green (#00F700) background
+  edge to edge so it can be keyed out cleanly.
+negative: >-
+  realistic anatomy, muscle definition, detailed armour plating, complex
+  clothing folds, gradients, glossy highlights, busy ornament, tiny unreadable
+  details, thin spindly limbs, text, watermark, signature
+# 参考图的轮廓是平滑均匀的，所以把基底里「禁止完美平滑轮廓」这条去掉
+negative_remove:
+  - perfectly smooth outlines
+aspect_ratio: "1:1"

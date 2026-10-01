@@ -1,0 +1,17 @@
+id: npc_merchant
+title: Travelling Merchant
+name: 旅行商人（NPC）
+category: character
+style: handpainted_2d
+tags: [npc, merchant, town, vendor]
+aspect_ratio: "3:4"
+count: 2
+prompt: |
+  A hand-painted full body illustration of {name}: a cheerful round-bellied
+  travelling merchant in a fur-trimmed coat and wide hat, a leather satchel of
+  coins at the hip, a knowing smile, standing beside a wooden pack frame.
+  Pose: {pose}. Warm lantern light from the right.
+variations:
+  - pose: waving an open hand in greeting
+  - pose: holding up a small glowing potion, leaning forward
+negative: horror, weapons drawn, gore

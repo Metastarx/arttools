@@ -1,0 +1,20 @@
+id: pixel_art
+name: 像素风 2D 精灵图
+# 像素风是另一种媒介，跟 _common 的「手绘墨线」互相矛盾，所以不继承。
+# 想让像素风也用国风墨线，把下面这行改成 true（同时建议改掉 negative 里的像素相关词）。
+inherit_common: false
+prompt_prefix: >-
+  Pixel art game sprite, 32-bit era SNES style, crisp single-pixel clusters,
+  limited palette of about 24 colours, strong dark outline, three-tone shading
+  (base / shadow / highlight), clean readable silhouette, no anti-aliasing,
+  orthographic front view.
+quality_suffix: >-
+  Centered composition with even margins, consistent scale across all variants,
+  flat solid pure green (#00F700) background for automatic keying, pixel-perfect hard edges,
+  high contrast silhouette, game-ready asset.
+negative: >-
+  blurry, soft gradients, photographic, 3D render, anti-aliased edges, text,
+  watermark, signature, logo, UI frame, drop shadow on the background,
+  multiple characters, cropped limbs, extra limbs, jpeg artifacts,
+  hand-drawn brush strokes, watercolour shading, ink-line illustration
+aspect_ratio: "1:1"

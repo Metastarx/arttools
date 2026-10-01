@@ -1,0 +1,20 @@
+id: monster_slime
+title: Slime
+name: 史莱姆（低级怪物）
+category: monster
+style: pixel_art
+tags: [monster, slime, enemy, common]
+aspect_ratio: "1:1"
+count: 3
+prompt: |
+  A game sprite of {name}: a rounded gelatinous slime blob with a glossy
+  highlight, two simple dot eyes and a small open mouth, no limbs.
+  Colour scheme: {colour}. Pose: {pose}.
+variations:
+  - colour: bright green with a lighter belly
+    pose: sitting still with a slight wobble
+  - colour: ice blue with white frost sparkles
+    pose: mid hop, body stretched upward, droplets trailing
+  - colour: blood red with a dark core
+    pose: lunging forward with angry eyes
+negative: humanoid body, weapons, gore

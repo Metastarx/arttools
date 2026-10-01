@@ -1,0 +1,15 @@
+id: handpainted_2d
+name: 手绘 2D 角色立绘
+# 这套依赖厚涂和边缘光，跟 _common 的「平涂低细节墨线」冲突，所以不继承。
+inherit_common: false
+prompt_prefix: >-
+  Hand-painted 2D game art, clean digital painting with visible brush strokes,
+  soft cel shading, warm rim light from the upper left, saturated but cohesive
+  palette, stylised proportions, expressive readable silhouette.
+quality_suffix: >-
+  Full body view, centered, even margins, flat solid pure green (#00F700) background,
+  crisp edges, consistent lighting, production ready game asset.
+negative: >-
+  photorealistic, 3D render, stock photo, text, watermark, signature,
+  background scenery, multiple characters, extra limbs, blurry, jpeg artifacts
+aspect_ratio: "3:4"

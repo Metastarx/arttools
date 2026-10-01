@@ -1,0 +1,17 @@
+id: hero_archer_2d
+title: Forest Ranger
+name: 游侠弓手（英雄·远程物理）
+category: character
+style: handpainted_2d
+tags: [hero, archer, ranged, playable]
+aspect_ratio: "3:4"
+count: 2
+prompt: |
+  A hand-painted full body illustration of {name}: a lean forest ranger in a
+  hooded green leather cloak, bracers on both forearms, a quiver of feathered
+  arrows across the back, drawing a recurve bow. Pose: {pose}. Wind-blown
+  cloak, dappled forest light across the shoulders.
+variations:
+  - pose: aiming stance, bow drawn fully to the cheek
+  - pose: sprinting while nocking an arrow, cloak trailing behind
+negative: modern firearms, full plate armour

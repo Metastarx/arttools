@@ -1,0 +1,15 @@
+id: inkline_2d
+name: 国风墨线插画（2D 肉鸽）
+# 画风来自 style/_common.yaml（自动继承），这里只写这个资源族特有的部分
+prompt_prefix: >-
+  This asset belongs to the project's core Chinese-fantasy illustration family:
+  keep it visually identical to the reference characters already in the project,
+  so it can stand next to them in the same scene.
+quality_suffix: >-
+  Single centered object, full object visible, slightly tilted three-quarter view,
+  clear readable silhouette, generous even margins, isolated on a flat solid pure green (#00F700) background
+  edge to edge, so it can be keyed out cleanly.
+negative: >-
+  gradients, glossy specular highlights, text, letters, watermark, signature,
+  hands, characters, scenery, UI, frame, busy detail, cluttered linework, jpeg artifacts
+aspect_ratio: "1:1"

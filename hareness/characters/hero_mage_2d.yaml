@@ -1,0 +1,19 @@
+id: hero_mage_2d
+title: Arcane Mage
+name: 秘法师（英雄·远程法术）
+category: character
+style: pixel_art
+tags: [hero, mage, ranged, playable]
+aspect_ratio: "1:1"
+count: 3
+notes: 法杖水晶发光，抠图后可叠加 Unity 的 Bloom 或粒子特效。
+prompt: |
+  A game sprite of {name}: a slender robed mage with a wide-brim pointed hat,
+  long silver hair, a deep purple robe trimmed with golden runes, and a staff
+  topped with a glowing cyan crystal. Pose: {pose}. Floating runes and a soft
+  glow around the staff, readable at 64x64 pixels.
+variations:
+  - pose: standing idle, staff planted vertically, calm expression
+  - pose: casting, both arms raised, a large glowing orb above the staff
+  - pose: hurt, stepping back, robe flaring, staff swinging low
+negative: modern clothing, firearms, sci-fi

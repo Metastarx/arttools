@@ -29,6 +29,8 @@
 #   输出     PNG（RGBA）                               -> pipeline.background / defaults
 #   参考图   角色 yaml 写了 reference: 后，画风以参考图为准 -> reference_lock / pipeline.reference_mode
 #   五阶段   原画 -> 抠图裁剪 -> 补绿扩边 -> Seedance 视频 -> 截帧抠图裁切  (src/stages.py)
+#   全幅资源 spec 写 opaque: true 时换成另外三段：opaque_preamble / opaque_requirements /
+#            opaque_negative，并且不抠图、不裁剪、不出 512-256 副本（地块、UI 底板用）
 #   动作     默认生成 idle / walk / hit 三个动画        -> pipeline.video.clips
 #   留白     参考图里角色只占画布 70%，四周全是纯绿      -> pipeline.video_input.fill
 #   提示词   视频的附加提示词在 hareness/prompts/（common 常驻 + 按动作勾）-> src/prompts.py
@@ -187,6 +189,63 @@ requirements: |
   - Reply with a single image only. Do not answer with text.
 
 # ---------------------------------------------------------------------------
+# 【开头 / 全幅资源】spec 写了 opaque: true 时，用这一段替代上面的 preamble。
+# 上面那段是给"绿幕上的单个物件"写的：它要求四周留纯绿背景。
+# 地块 / UI 底板这类资源整幅画面就是资源本身，没有背景可留——同一句话对前者是规则，
+# 对后者是灾难（模型会老老实实画一圈绿边）。
+opaque_preamble: |
+  You are producing production-ready 2D game art textures for a Unity project.
+  These are shared project standards: every asset obeys exactly the same rules,
+  so follow them literally and do not improvise around them.
+
+  THIS ASSET IS A FULL-BLEED TEXTURE (mandatory):
+  - The whole square canvas is the asset. Fill it edge to edge: no background,
+    no empty margin, no border, no frame, and never one centred object floating
+    on a background.
+  - It is a repeating tile. The left edge continues seamlessly into the right edge,
+    and the top edge into the bottom edge; the four corners agree. Tiled 4 x 4 it
+    has to read as one continuous surface: no seam, no repeat line, no lighting step.
+  - Flat, even, ambient lighting across the entire frame: no directional shadow,
+    no light gradient, no hot spot, no dark corner, no vignette.
+  - Top-down orthographic view, as if looking straight down at the surface.
+  - Keep the value range narrow and the detail density low, so that a character
+    standing on it stays readable: this is a floor for gameplay, not a painting.
+
+  STYLE (mandatory):
+  - Hand-drawn 2D game art: clean ink-like edges, flat unshaded fills, simplified
+    shapes, a muted traditional East-Asian palette (ink black, rice-paper beige,
+    cinnabar red, jade green, aged bronze). No photorealism, no 3D render.
+  - Low detail: every shape must survive being scaled down to gameplay size.
+
+
+# 【结尾 / 全幅资源】与 opaque_preamble 成对使用
+opaque_requirements: |
+  Final checklist before you finish the image:
+
+  - The canvas is covered with the texture: no background, no empty margin, no frame.
+  - Opposite edges match: left/right and top/bottom tile seamlessly, corners agree.
+  - Flat even ambient lighting: no vignette, no dark corner, no directional shadow.
+  - Low-detail hand-drawn 2D game-art density, limited cohesive palette.
+  - No text, letters, numbers, watermark, signature or logo.
+  - Reply with a single image only. Do not answer with text.
+
+
+# 【固定负面词 · 全幅资源】opaque: true 的 spec 用这一份替代下面的 negative。
+# 下面那份禁掉了 floor / ground / platform / scenery / environment——那是给"不许踩在
+# 地上的角色"写的；地块要的恰恰是这些词，所以必须换一份。
+opaque_negative: >-
+  text, letters, words, numbers, watermark, signature, logo, username, timestamp,
+  border, frame, picture frame, UI overlay, card, collage, vignette, dark corners,
+  uneven lighting, lighting gradient, hot spot, directional shadow, cast shadow,
+  perspective distortion, vanishing point, isometric, three-quarter view,
+  one centred object, object floating on a background, empty margin,
+  visible seam, mismatched tile edges, an obviously repeating pattern,
+  characters, creatures, monsters, people, animals, faces, hands,
+  photographic, photorealistic, stock photo, 3D render, cgi, clay render,
+  lens flare, motion blur, film grain, bloom, heavy noise, jpeg artifacts,
+  oversaturated, neon colours, blurry, low resolution, tiny illegible details
+
+
 # 【固定负面词】会和 style / spec 的 negative 合并去重
 # ---------------------------------------------------------------------------
 negative: >-

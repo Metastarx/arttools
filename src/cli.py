@@ -111,6 +111,14 @@ def _add_generation_flags(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument("--no-trim", dest="trim", action="store_false", help="keep the full canvas")
     parser.add_argument(
+        "--opaque", dest="opaque", action="store_true", default=None,
+        help="the image IS the asset: no keying, no trimming, no extra size copies (a tile, a UI panel)",
+    )
+    parser.add_argument(
+        "--no-opaque", dest="opaque", action="store_false",
+        help="force the normal cut-out path even if the spec says opaque",
+    )
+    parser.add_argument(
         "--trim-padding", dest="trim_padding", type=int, default=None,
         help="transparent margin kept after trimming (default: common.yaml pipeline.crop.trim_padding)",
     )
@@ -592,6 +600,7 @@ def cmd_generate(args: argparse.Namespace, settings: Settings, all_specs: bool) 
         cutout_tolerance=args.cutout_tolerance,
         trim=args.trim,
         trim_padding=args.trim_padding,
+        opaque=args.opaque,
         sizes=_parse_sizes(args.sizes),
         max_source_px=args.max_source_px,
         write_metadata=args.write_metadata,

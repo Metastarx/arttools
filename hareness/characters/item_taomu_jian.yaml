@@ -1,0 +1,49 @@
+id: item_taomu_jian
+title: Peachwood Sword
+name: 桃木剑（道具图标·不开刃的短木剑）
+category: item
+style: ui_icon
+tags: [item, weapon, artifact, icon, human, tier1]
+aspect_ratio: "1:1"
+count: 3
+
+notes: >
+  游戏里第一件法器（`item.taomu_jian`，设定见 Assets/Design~/Items/桃木剑.md）。
+  记忆点是「**它不能砍，它压着**」：一柄没有开刃的桃木短剑，比手掌长一点，
+  是最便宜、谁都能刻的那种、也是最不像法宝的那类法宝。
+  所以图标不要画成神兵——**不要金属光、不要纹饰、不要长**；
+  它应该看上去像一块被人天天握、握得有点发亮的木头。
+
+prompt: |
+  A game item icon of {name}: one single short Chinese peachwood sword, drawn
+  straight-on and centred, filling most of the square.
+
+  It is a small flat wooden sword about the length of a hand: a plain tapered
+  peach-wood blade with a ROUNDED, completely blunt tip - it has never been
+  sharpened - a simple short crossguard and a plain straight grip, all carved
+  from one piece of wood. No metal fittings, no jewel, no engraving, no
+  tassel hanging off it.
+
+  The wood is warm pale peach-wood brown with visible straight grain and
+  slightly darkened, polished spots where a hand has held it for years. A thin
+  faded vermilion cord is tied once around the grip. Nothing else is coloured.
+
+  Flat colour, thick hand-drawn outline, no shading, no metal shine, no glow.
+
+variations:
+  - variant: >-
+      The sword points straight up, blade up and grip down, perfectly upright
+      and still.
+  - variant: >-
+      The same sword tilted about thirty degrees, blade up and to the right,
+      the vermilion cord's loose end hanging down.
+  - variant: >-
+      The same sword with a small fresh chip missing from one edge of the blade
+      and a faint darker ring on the grip where the cord is tied.
+
+negative: >-
+  metal, steel, iron blade, sharp edge, pointed tip, sword shine, glint,
+  jewels, dragon carving, ornate guard, long sword, katana, dagger, scabbard,
+  tassel, chinese characters, hanzi, calligraphy, readable text, glow, aura,
+  gradient, 3d, plastic, glossy, human, hand, face, multiple objects, frame,
+  border, banner, scenery, floor, ground shadow

@@ -1,0 +1,46 @@
+id: item_fu_leizhu
+title: Thunder Talisman
+name: 雷符（道具图标·贴刃引雷的黄纸符）
+category: item
+style: ui_icon
+tags: [item, talisman, charm, consumable, icon, human, tier1]
+aspect_ratio: "1:1"
+count: 3
+
+notes: >
+  游戏里第一件符箓（`item.fu_leizhu`，设定见 Assets/Design~/Items/雷符.md）。
+  记忆点是「一张黄纸 + 一句**写了一半**的朱砂话」：它贴在兵器上，砍中什么就在那东西身上把话补完，
+  补完的形式是雷。所以图标要让人一眼看到"没写完"——最后一笔是断的，断口有极小的电芒。
+  不是"闪电形状的符"、不是"画着雷字的符"，是**一句被打断的话**。
+
+prompt: |
+  A game item icon of {name}: one single Chinese paper talisman, drawn straight-on
+  and centred, filling most of the square.
+
+  It is a narrow vertical strip of slightly aged yellow paper with a torn,
+  uneven top edge and a small fold crease. Down the strip run a few bold
+  vermilion brush strokes that read as handwriting without being any real
+  characters - and the last stroke stops halfway, unfinished, as if the writer
+  was interrupted. Right at that broken end sits a tiny cold white-blue spark,
+  the only thing on the icon that is not paper or ink.
+
+  The paper is warm yellow with slightly darker edges, the strokes are flat
+  vermilion, the spark is small and pale. Flat colour, thick brush line, no
+  gradient and no glow.
+
+variations:
+  - variant: >-
+      The talisman hangs perfectly straight and still, the unfinished stroke at
+      the bottom, the tiny spark barely there.
+  - variant: >-
+      The same talisman, very slightly curled at the bottom edge as if it had
+      been carried in a pocket, the spark a little brighter and branching once.
+  - variant: >-
+      The same talisman with two faint scorch marks burned into the paper near
+      the unfinished stroke, the spark gone - it has been used before.
+
+negative: >-
+  lightning bolt, thunderbolt symbol, storm, cloud, rain, glow, aura, sparkle
+  everywhere, gradient, 3d, plastic, glossy, chinese characters, hanzi,
+  calligraphy, readable text, sword, weapon, human, hand, face, multiple objects,
+  frame, border, banner, paper stack, book, bookmark, scenery, floor, shadow

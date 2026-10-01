@@ -31,6 +31,7 @@ hareness/
 | 发给模型 | `preamble` | 固定开场：背景规则 + 尺寸比例 + 构图规则 |
 | 发给模型 | `requirements` | 固定收尾：交付前自检清单 |
 | 发给模型 | `negative` | 固定负面词，和 style / spec 的 negative 合并去重 |
+| 发给模型 | `opaque_preamble` / `opaque_requirements` / `opaque_negative` | 规格写 `opaque: true`（整幅即资源，如地块、UI 底板）时**换用这一套**：开场 / 收尾 / 负面词都换成「四边无缝、整幅画满」的版本 |
 | 发给模型 | `reference_lock` | **参考图锁**：这次请求带了参考图时才会发，声明「图是唯一裁判，不许加细节」 |
 | 发给模型 | `send_as_system` | `false`（默认）并进 prompt 文本，兼容所有中转平台；`true` 时 gemini 走 `systemInstruction`、openai 走 system 消息 |
 | 给代码 | `pipeline.background` | 绿幕色号 `#00FF00`、抠图容差、去溢色开关、是否自动抠图 |
@@ -47,6 +48,11 @@ hareness/
 2. **抠绿成透明**（`pipeline.background.tolerance`，带去溢色，边缘不留绿边）；
 3. **裁剪到内容边界**（`pipeline.crop.trim`，输出尺寸就是资源真实尺寸）；
 4. **交付尺寸固定**（`pipeline.sizes.max_sides`，默认再出最长边 512px 和 256px 两份）。
+**唯一例外：全幅贴图。** 规格里写 `opaque: true`（或命令行 `--opaque`）时，上面第 2、3、4 条全部关掉，
+第 1 条换成「整幅画满、四边无缝」。原因：地块与 UI 底板**整幅就是资源本身**——
+裁到内容边界会把四边切掉（而四边正是要接上的地方），抠绿会把地砖当背景抠没，
+而默认负面词里的 `floor / ground / platform / scenery / environment` 更是把要画的东西全否了。
+出图之后先量接缝再接（`ResourceSource/Tools/measure-tile-seams.ps1`）。
 
 ### 尺寸约束怎么用
 

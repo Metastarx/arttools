@@ -1,0 +1,45 @@
+id: env_wall_brick
+title: Wall Tile
+name: 砖石墙顶面（地块 · 俯视无缝平铺）
+category: environment
+style: env_tile
+tags: [environment, tile, wall, terrain, human]
+aspect_ratio: "1:1"
+count: 4
+opaque: true
+
+notes: >
+  房间四壁的顶面（俯视看到的墙）。墙厚一格，所以这块图会沿墙重复几十次、纵向只铺一次——
+  重复感全靠"值域压窄 + 没有单个抢眼的石头"压住。与地面同一套规则：opaque、无缝。
+
+prompt: |
+  A seamless top-down texture of the top face of a thick wall for a
+  Chinese-fantasy roguelike: {variant}.
+
+  Seen from directly above, orthographically, filling the entire square frame.
+  Hand-drawn ink-line masonry: dark irregular seams and flat muted fills, drawn
+  in the same brush language as the characters.
+
+  Nothing may look like a single hero object: this band repeats dozens of times
+  along the wall, so uniformity is the point. Flat even ambient light, no cast
+  shadow, no light coming from one side, no gradient, no vignette. Narrow value
+  range, low detail density.
+
+variations:
+  - variant: >-
+      grey-blue brick courses in a running bond, thin dark mortar, a few chipped
+      bricks and one or two paler replacement bricks
+  - variant: >-
+      large rough-cut stone blocks fitted tightly together, cool grey with dark
+      ink outlines, dry mortar dust in the joints
+  - variant: >-
+      rammed earth, warm beige with faint horizontal tamping lines and small
+      embedded pebbles, two thin cracks running through
+  - variant: >-
+      old weathered brick with moss creeping along the deepest joints, dark
+      ox-blood and grey tones, otherwise flat and quiet
+
+negative: >-
+  isometric, perspective, wall corner, bricks receding into the distance, window,
+  doorway, lantern, single object, pile, rubble mound, grass, water, strong
+  shadow, glossy highlight, letterbox band, frame, a hard seam at the edge

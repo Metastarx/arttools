@@ -1,0 +1,69 @@
+id: monster_paper_effigy
+title: Paper Effigy
+name: 纸人（人间·简笔 Q 版·丧仪纸扎）
+category: monster
+style: chibi_simple
+tags: [monster, enemy, human, tier1, chibi, simple, paper]
+aspect_ratio: "1:1"
+count: 2
+
+notes: >
+  人间的第一层杂兵，与小妖同层但来历不同：小妖是漏进来的，纸人是**人自己扎的**。
+  丧仪上烧给死人的纸扎人，界墙薄了之后自己站了起来，照着生前被派给的那件事走。
+  设计见 Assets/Design~/Characters/纸人.md。
+
+  记忆点是「折痕 + 立不住的扁平轮廓」，不是「穿白衣服的僵尸」：
+  身体是一张纸折出来的，肩与袖是直角，脚是两片纸尖，脸上只有两笔朱砂。
+
+animations: [idle, walk, hit, attack, dead]
+
+animation_hint: >
+  keep it a folded paper figure: flat paper planes with visible crease lines, hard
+  straight shoulders and a square sleeve opening, no rounded flesh, no visible
+  joints, and the two red brush marks on the face instead of eyes. Keep the pale
+  ash-white paper, the soot-black crease lines and the small vermilion collar and
+  waist mark exactly as in the portrait, and keep it facing the viewer in every
+  frame.
+
+prompt: |
+  A game sprite of {name}, a low-level Chinese folk enemy from a burial rite,
+  drawn as a front-facing idle game pose. {body} {pose}
+
+  It is a paper effigy that a village once folded and burned for its dead, and
+  which has stood up again now that the boundary wall is thin. Build it out of
+  PAPER, not out of flesh: the whole body is flat folded paper planes, with
+  visible crease lines running down the chest and the sleeves, hard straight
+  shoulder corners, and a square sleeve opening instead of a rounded arm. The
+  legs are two narrow paper strips and the feet are two sharp paper points - it
+  does not have toes, shoes or a heel. The head is a flat paper mask, wider than
+  it is deep, tilted very slightly to one side as if it might fall.
+
+  Its face has no eyes, no nose and no mouth: just two short strokes of
+  vermilion brush where the eyes would be, one of them smudged. That is the only
+  colour on the face.
+
+  Colour: the paper is pale ash white; every crease, edge and fold line is a
+  clean soot-black line; there is one small vermilion paper collar and one
+  vermilion band around the waist, and nothing else is coloured. Slight ash-grey
+  scorching along the bottom hem, as if it was pulled back out of a fire.
+
+  Keep the shapes simple and readable at gameplay scale. It should read as a
+  folded paper person, thin, stiff and a little wrong - never as a cloth robe
+  and never as a mummy.
+
+variations:
+  - body: It is folded from plain pale ash-white paper, with a narrow vermilion collar
+      and a vermilion waist band, and its sleeves hang as two flat rectangles.
+    pose: Standing idle and front-facing, arms held a little away from the body,
+      both paper hands open and flat, feet as two sharp points planted apart.
+  - body: It carries a small paper spirit-money banner on a thin bamboo stick, and
+      the paper of its sleeves is scorched along the edges.
+    pose: Standing idle and front-facing, the banner leaning against one shoulder,
+      the free hand hanging flat, the head tipped slightly to one side.
+
+negative: >-
+  mummy, bandages, wrappings, zombie, rotting flesh, exposed bone, skull, ghost
+  tail, floating, blood, gore, gothic vampire, hooded robe, cloth folds, rounded
+  shoulders, flesh joints, toes, shoes, muscle, armour, glossy highlights,
+  gradient shading, cute, kawaii, blush marks, cheerful smile, multiple
+  characters, side view, back view, text

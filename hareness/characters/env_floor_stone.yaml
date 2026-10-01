@@ -1,0 +1,50 @@
+id: env_floor_stone
+title: Stone Floor Tile
+name: 青石地面（地块 · 俯视无缝平铺）
+category: environment
+style: env_tile
+tags: [environment, tile, ground, floor, terrain, human]
+aspect_ratio: "1:1"
+count: 4
+opaque: true
+
+notes: >
+  人间第一层房间的地面（俯视）。它要能 4x4 平铺而不露缝，所以**整幅画面都是资源**：
+  opaque: true 让它跳过抠图 / 裁剪 / 512-256 副本（见 common.yaml 的 opaque_* 三段）。
+  值域压窄是有意的——地面是背景，站在上面的小妖与掉落物必须先被看见。
+  入库之后由 TileSurfaceView 按世界尺寸平铺，见 ResourceSource/README.md。
+
+prompt: |
+  A seamless top-down ground texture for a Chinese-fantasy roguelike: {variant}.
+
+  Seen from directly above, orthographically, filling the entire square frame.
+  The surface is built from hand-drawn ink linework: dark, slightly irregular
+  seams, and flat muted fills. A few small pebbles, hairline cracks and stains
+  break up the repetition.
+
+  Keep the value range narrow - everything sits in a close mid-tone band - and
+  keep the detail density low, so that characters and dropped items standing on
+  this surface stay readable. No single rock may become an eye-catching object:
+  it is a texture, not a still life.
+
+  Flat even ambient light. No shadow between the stones, no light gradient across
+  the frame, no vignette, no dark corner.
+
+variations:
+  - variant: >-
+      large rectangular blue-grey stone slabs in a staggered running-bond pattern,
+      wide dark seams, cool grey-green stone
+  - variant: >-
+      irregular cobblestone of small rounded stones packed closely together, pale
+      grey with a few warmer tan stones, an ink outline around each stone
+  - variant: >-
+      rammed earth, warm rice-paper beige with faint horizontal tamping lines,
+      tiny gravel specks and two thin hairline cracks
+  - variant: >-
+      worn old paving in dark ox-blood and grey, chipped corners, faint moss in
+      the deepest seams, most of the surface flat and quiet
+
+negative: >-
+  single object, centred rock, pile of stones, moss carpet, grass, plants, water,
+  puddle, reflection, glossy highlight, grid lines that reveal the repeat,
+  a hard seam between the left and the right edge, ornate border around the frame

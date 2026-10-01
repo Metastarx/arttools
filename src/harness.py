@@ -186,6 +186,11 @@ class PromptSpec:
     style: str = ""
     template: str = ""
     negative: str = ""
+    # Terms dropped from the merged negative list. The house negative bans
+    # "floor / ground / platform" (right for a character, wrong for a tile).
+    negative_remove: List[str] = field(default_factory=list)
+    # True = this asset IS the texture: full bleed, tiles with itself, no keying.
+    opaque: bool = False
     aspect_ratio: Optional[str] = None
     image_size: Optional[str] = None
     model: Optional[str] = None
@@ -250,6 +255,11 @@ def load_specs(characters_dir: Path) -> Dict[str, PromptSpec]:
             style=str(data.get("style") or ""),
             template=str(data.get("prompt") or data.get("template") or "").strip(),
             negative=str(data.get("negative") or "").strip(),
+            # Terms dropped from the merged negative list: the house negative bans
+            # "floor / ground / platform" (right for a character, wrong for a tile).
+            negative_remove=[str(item).strip() for item in _as_list(data.get("negative_remove"))],
+            # True = this asset IS the texture: full bleed, tiles with itself, no keying.
+            opaque=bool(data.get("opaque", False)),
             aspect_ratio=data.get("aspect_ratio"),
             image_size=data.get("image_size"),
             model=data.get("model"),
@@ -323,6 +333,13 @@ class CommonBlock:
     preamble: str = ""
     requirements: str = ""
     negative: str = ""
+    # Full-bleed textures (a spec with ``opaque: true``) are not cut-outs on a green
+    # screen, so they get their own preamble / checklist / negative list. They live
+    # right here, next to the green-screen ones, because "one flat green background"
+    # is exactly the instruction that must NOT be sent when the asset is a tile.
+    opaque_preamble: str = ""
+    opaque_requirements: str = ""
+    opaque_negative: str = ""
     # Sent instead of nothing whenever reference art is attached: it tells the
     # model that the attached image - not this text - defines the look.
     reference_lock: str = ""
@@ -344,6 +361,9 @@ class CommonBlock:
             preamble=str(data.get("preamble") or "").strip(),
             requirements=str(data.get("requirements") or "").strip(),
             negative=str(data.get("negative") or "").strip(),
+            opaque_preamble=str(data.get("opaque_preamble") or "").strip(),
+            opaque_requirements=str(data.get("opaque_requirements") or "").strip(),
+            opaque_negative=str(data.get("opaque_negative") or "").strip(),
             reference_lock=str(data.get("reference_lock") or "").strip(),
             reference_mode=str(
                 data.get("reference_mode")
@@ -361,7 +381,9 @@ class CommonBlock:
 
     @property
     def is_empty(self) -> bool:
-        return not (self.preamble or self.requirements or self.negative)
+        return not (
+            self.preamble or self.requirements or self.negative or self.opaque_preamble
+        )
 
     def default_for(self, key: str) -> Optional[str]:
         value = self.defaults.get(key)
@@ -414,11 +436,24 @@ def build_negative(
     variation: Optional[Dict[str, Any]] = None,
     common: Optional[CommonBlock] = None,
 ) -> str:
-    """Merge common / spec / style / variation negatives without duplicates."""
+    """Merge common / spec / style / variation negatives without duplicates.
+
+    ``spec.negative_remove`` drops terms from the merged list. The house negative bans
+    "floor / ground / platform" because a character must not stand on a drawn floor -
+    which is precisely the thing a ground tile needs to be allowed to draw.
+    """
     collected: List[str] = []
-    seen: set = set()
+    dropped = {str(item).strip().lower() for item in (spec.negative_remove or [])}
+    seen: set = set(dropped)
+    house = ""
+    if common and common.enabled:
+        house = (
+            common.opaque_negative
+            if spec.opaque and common.opaque_negative
+            else common.negative
+        )
     sources = [
-        common.negative if common and common.enabled else "",
+        house,
         spec.negative,
         style.negative if style else "",
         (variation or {}).get("negative"),
@@ -456,11 +491,22 @@ def build_request(
 
     system = ""
     pieces: List[str] = []
-    if use_common and common.preamble:
+    # A full-bleed texture gets a different opening paragraph: the green-screen one
+    # tells the model to leave a flat background around the asset, which for a tile
+    # is the one thing that must not happen.
+    preamble = (
+        common.opaque_preamble if spec.opaque and common.opaque_preamble else common.preamble
+    )
+    requirements = (
+        common.opaque_requirements
+        if spec.opaque and common.opaque_requirements
+        else common.requirements
+    )
+    if use_common and preamble:
         if common.send_as_system:
-            system = common.preamble.strip()
+            system = preamble.strip()
         else:
-            pieces.append(common.preamble.strip())
+            pieces.append(preamble.strip())
     if style and style.prefix:
         pieces.append(style.prefix)
     if reference_lock.strip():
@@ -468,8 +514,8 @@ def build_request(
     pieces.append(_unwrap(_render(spec.template, context)))
     if style and style.suffix:
         pieces.append(style.suffix)
-    if use_common and common.requirements:
-        pieces.append(common.requirements.strip())
+    if use_common and requirements:
+        pieces.append(requirements.strip())
 
     prompt = "\n".join(piece for piece in pieces if piece)
     negative = build_negative(spec, style, variation, common if use_common else None)

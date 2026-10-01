@@ -1,0 +1,73 @@
+id: monster_clay_idol
+title: Clay Idol
+name: 泥胎（人间·简笔 Q 版·村庙土偶）
+category: monster
+style: chibi_simple
+tags: [monster, enemy, human, tier1, chibi, simple, clay, heavy]
+aspect_ratio: "1:1"
+count: 2
+
+notes: >
+  人间的第二层杂兵：慢、硬、打不动。村庙里没塑完就被丢下的土偶，
+  香火断了以后自己从神台上走下来。设计见 Assets/Design~/Characters/泥胎.md。
+
+  记忆点是「没塑完」——不是「石头人」：五官只有一道按出来的凹槽，
+  手臂一根粗一根细，肩上一块泥还没抹平，身上有裂纹与稻草胎骨露出来。
+
+animations: [idle, walk, hit, attack, dead]
+
+animation_hint: >
+  keep it unfired village clay: the warm earth-brown body with a few straw fibres
+  showing through the cracks, the pale grey unfired patches where the mud was
+  never smoothed, the single pressed-in groove where a face should be, one thick
+  arm and one thin arm, and the flat cut-off base at the feet where it used to
+  stand on a shrine shelf. Keep the soot-black outline and the small ash-grey
+  loincloth exactly as in the portrait, and keep it facing the viewer in every
+  frame.
+
+prompt: |
+  A game sprite of {name}, a low-level Chinese folk enemy, drawn as a
+  front-facing idle game pose. {body} {pose}
+
+  It is a village shrine idol that was modelled in clay, never finished and never
+  fired, and that now walks. Build it out of EARTHEN CLAY, not stone and not
+  metal: a squat, heavy, barrel-shaped trunk with short thick legs, no neck to
+  speak of, and a wide flat head. The surface is warm earth brown with a few
+  paler grey patches where the mud was never smoothed over, fine hairline cracks
+  across the chest and legs, and here and there a short straw fibre poking out of
+  a crack - the binding that was mixed into the clay.
+
+  It has NO face: only one shallow groove pressed across the front of the head
+  where a face was going to be carved, and a small round thumb-print dent below
+  it. No eyes, no mouth, no nose.
+
+  Its two arms are not the same: one is a thick heavy club of clay and the other
+  is noticeably thinner and shorter, because the maker stopped halfway. Both
+  hands are blunt rounded lumps with no fingers.
+
+  The feet are not feet: the legs end in one flat cut-off clay base, as if it was
+  standing on a shelf when it was left to dry.
+
+  Colour: warm earth brown clay, pale grey unsmoothed patches, soot-black outline
+  and crack lines, and one small ash-grey cloth wrapped around the waist. Nothing
+  else is coloured. Keep the shapes simple and readable at gameplay scale. It
+  should read as something heavy, dumb and unfinished - never as a golem of
+  polished stone and never as an armoured warrior.
+
+variations:
+  - body: It is bare clay with a small ash-grey waist cloth, the cracks running down
+      the chest and one shoulder.
+    pose: Standing idle and front-facing, both blunt arms hanging out a little from
+      the body, weight settled low, flat base planted on the ground.
+  - body: It is bare clay and one shoulder still has a rough lump of wet-looking mud
+      that was never smoothed, with straw fibres sticking out of it.
+    pose: Standing idle and front-facing, the thick arm raised a little as if the
+      weight of it is too much, the head tipped slightly forward.
+
+negative: >-
+  stone golem, granite, marble, polished rock, metal, brass, armour plating,
+  samurai, terracotta army armour, skeleton, skull, exposed ribs, zombie, rotting
+  flesh, blood, gore, glowing runes, magic circle, floating, horns, tail, extra
+  limbs, muscle definition, glossy highlights, gradient shading, cute, kawaii,
+  blush marks, cheerful smile, facial features, eyes, mouth, multiple characters,
+  side view, back view, text

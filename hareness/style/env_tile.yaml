@@ -1,0 +1,16 @@
+id: env_tile
+name: 场景地块（俯视 · 无缝平铺）
+# 画风来自 style/_common.yaml（自动继承），这里只写地块族特有的部分
+prompt_prefix: >-
+  This asset is a ground / wall surface texture for the project, seen from
+  directly above (top-down view), and it has to sit under the same hand-drawn
+  ink-line characters as everything else. Draw it as a flat painted surface:
+  ink-like dark seams between the stones, muted traditional colours, slightly
+  irregular hand-drawn shapes, no perspective and no cast shadow.
+quality_suffix: >-
+  A single seamless square texture that fills the whole frame edge to edge:
+  flat even ambient lighting, no border, no margin, no centred object, no
+  background, and the opposite edges match so it tiles without a visible seam.
+negative: >-
+  isometric, three-quarter view, perspective, horizon, wall corner, cast shadow,
+  drop shadow, letterbox, frame, border, single object, scene, room render,

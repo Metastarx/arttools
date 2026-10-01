@@ -51,6 +51,7 @@ from .generator import (
     resolve_source,
     run_stamp_now,
 )
+from .paths import IMAGE_DIR_NAME
 from .harness import (
     CommonBlock,
     HarnessError,
@@ -249,6 +250,30 @@ class ClipReport:
         return bool(self.frames) and not self.failures
 
 
+# Where the portrait of a run can be, most preferred first. A run that only ran the
+# pipeline (stage 2/3) keeps its art under ``02_artwork_ready``; ``gen`` writes ``512`` /
+# ``256``; ``01_artwork`` is the raw green-screen draw.
+_PORTRAIT_FOLDERS = (
+    "512",
+    "256",
+    "02_artwork_ready/512",
+    "02_artwork_ready/256",
+    "01_artwork",
+    "",
+    "02_artwork_ready",
+)
+
+
+def portrait_in(run_dir: Path) -> Optional[Path]:
+    "\"\"\"The portrait inside one run folder, or ``None`` when it holds no png at all.\"\"\""
+    for folder in _PORTRAIT_FOLDERS:
+        where = run_dir / folder if folder else run_dir
+        hits = sorted(where.glob("*.png"))
+        if hits:
+            return hits[0]
+    return None
+
+
 def locate_reference(
     spec_id: str,
     output_dir: Path,
@@ -262,10 +287,16 @@ def locate_reference(
     is exactly the "use the 512px image as the reference" rule of the pipeline.
     Runs live at ``resource/image/<day>/<stamp>_<spec id>/`` relative to the
     resource root (which is what ``output_dir`` points at), so the search walks
-    down three levels. The shallower ``<day>/<stamp>_<spec id>`` and flat
-    ``<stamp>_<spec id>`` layouts are still searched so portraits drawn before
-    the day folders existed keep working. Setting ``output_dir`` directly to
-    ``resource/image`` instead of ``resource`` is therefore also fine.
+    down three levels under ``image/``. The shallower ``<day>/<stamp>_<spec id>``
+    and flat ``<stamp>_<spec id>`` layouts are still searched so portraits drawn
+    before the day folders existed keep working. Setting ``output_dir`` directly
+    to ``resource/image`` instead of ``resource`` is therefore also fine.
+
+    The search stays inside ``image/`` on purpose: the video half of the pipeline
+    names its runs the same way (``resource/video/<day>/<stamp>_<spec id>``), and a
+    video run has no portrait in it - searching the whole resource root makes the
+    newest *video* run shadow the still it was rendered from, which reads as
+    "no PNG portrait found".
     """
     if explicit:
         path = Path(explicit).expanduser()
@@ -278,10 +309,14 @@ def locate_reference(
     base = Path(run_dir) if run_dir else None
     if base is None:
         root = Path(output_dir)
+        image_root = root / IMAGE_DIR_NAME
+        search_root = image_root if image_root.is_dir() else root
         pattern = "*_" + spec_id
         folders = []
-        for level in ("*", "*/*", "*/*/*"):
-            folders.extend(root.glob(level + "/" + pattern))
+        for level in ("", "*", "*/*"):
+            # An empty level means "right here" - joining it would make the pattern
+            # start with a slash, which pathlib rejects as non-relative.
+            folders.extend(search_root.glob((level + "/" if level else "") + pattern))
         candidates = sorted(
             (item for item in folders if item.is_dir()),
             key=lambda item: item.name,
@@ -296,19 +331,25 @@ def locate_reference(
                 + spec_id
                 + "' first, or point at a file with --from <png>."
             )
-        base = candidates[-1]
+        # Newest run that actually *holds* a portrait. Taking the newest blindly makes a
+        # sibling run that has no art shadow the one that does: the same spec gets a
+        # second run folder as soon as the video half of the pipeline is run on it
+        # (``run --source <still>``), and that folder has no standee in it.
+        base = None
+        for candidate in reversed(candidates):
+            if portrait_in(candidate) is not None:
+                base = candidate
+                break
+        if base is None:
+            base = candidates[-1]
 
-    for folder in ("512", "256"):
-        hits = sorted((base / folder).glob("*.png"))
-        if hits:
-            return hits[0], base
-
-    hits = sorted(base.glob("*.png"))
-    if hits:
-        log.info("%s: no 512px copy under %s - using %s as the reference.", spec_id, base, hits[0].name)
-        return hits[0], base
-
-    raise HarnessError("No PNG portrait found in " + str(base))
+    found = portrait_in(base)
+    if found is None:
+        raise HarnessError("No PNG portrait found in " + str(base))
+    if found.parent == base:
+        log.info("%s: no 512px copy under %s - using %s as the reference.",
+                 spec_id, base, found.name)
+    return found, base
 
 
 def _clip_block(clip: ClipPlan, index: int, total: int) -> str:

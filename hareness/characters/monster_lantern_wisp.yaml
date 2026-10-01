@@ -1,0 +1,75 @@
+id: monster_lantern_wisp
+title: Lantern Wisp
+name: 灯鬼（人间·简笔 Q 版·庙会灯笼）
+category: monster
+style: chibi_simple
+tags: [monster, enemy, human, tier1, chibi, simple, fast, fire]
+aspect_ratio: "1:1"
+count: 2
+
+notes: >
+  人间的第三层杂兵：快、脆、会烧。庙会上供过神、后来又没人收走的那盏灯，
+  灯芯里剩下的一点火自己动了起来。设计见 Assets/Design~/Characters/灯鬼.md。
+
+  记忆点是「一盏灯笼长出了两条细腿」——不是「火球」也不是「鬼火」：
+  本体是纸灯笼，上下两个木盖，火在灯笼里面，两条细腿是灯绳变的。
+
+animations: [idle, walk, hit, attack, dead]
+
+animation_hint: >
+  keep it a paper temple-fair lantern first and a creature second: the round pale
+  paper body with the soot-black bamboo ribs showing through, the dark wooden cap
+  on top and bottom, the thin red cord and knot hanging off the bottom cap, and
+  the small warm flame visible inside the paper. The two thin dark legs came from
+  the lantern cords. Keep the soot-black outline and the small vermilion panel
+  brush-marks exactly as in the portrait, and keep it facing the viewer in every
+  frame.
+
+prompt: |
+  A game sprite of {name}, a low-level Chinese folk enemy, drawn as a
+  front-facing idle game pose. {body} {pose}
+
+  It is a paper lantern from a temple fair that was hung up, offered to, and then
+  forgotten, and whose remaining flame has started to move on its own. Build it
+  as a LANTERN that has grown legs, not as a fireball and not as a floating
+  spirit: a round paper lantern body, slightly taller than wide, with soot-black
+  bamboo ribs showing through the paper, a dark wooden cap on the top and another
+  on the bottom, and a thin vermilion cord with a knot hanging from the bottom
+  cap.
+
+  Inside the paper there is a small warm flame, seen as a soft glow through the
+  paper rather than as a separate fire on the outside. The paper around the flame
+  is a little scorched.
+
+  Its legs are two thin dark cords that have stiffened into legs, ending in small
+  knotted loops instead of feet. It has no arms. Its face is painted on the paper
+  in soot-black brush: two narrow strokes for eyes and one short stroke for a
+  mouth, and one small vermilion panel-mark on each side of the body - the mark
+  that was painted on it for the festival.
+
+  Colour: pale warm cream paper, soot-black ribs and outline, dark brown wood
+  caps, one small vermilion cord and two vermilion panel-marks, and a small warm
+  orange flame inside. Nothing else is coloured. Keep the shapes simple and
+  readable at gameplay scale. It should read as fast and fragile - never as a
+  muscular fire demon and never as a cute mascot.
+
+variations:
+  - body: It is a round pale paper lantern with dark wooden caps and a small flame
+      burning inside. Two thin dark cords hang from the bottom cap and have
+      STRAIGHTENED INTO LEGS that reach the ground - two stiff thin legs with a
+      small knotted loop for a foot, holding the whole lantern up off the floor so
+      that it is STANDING on them. It is not hanging and it is not floating. One
+      short vermilion knot still dangles between the two legs.
+    pose: Standing upright and front-facing, held up on its two thin cord-legs,
+      leaning a little to one side as if swaying, the flame glowing steadily.
+  - body: Its paper is scorched along one side and the bamboo ribs show through more
+      plainly there, and the flame inside has grown a little brighter.
+    pose: Standing idle and front-facing, leaning toward one side, the paper
+      bulging slightly as if something inside pushed at it.
+
+negative: >-
+  fireball, fire elemental, floating orb, will-o-wisp, ghost flame, skull face,
+  demon, muscular, big arms, bat wings, horns, tail, gore, blood, burning scenery,
+  smoke clouds, sparks flying outside the body, embers on the ground, glowing
+  runes, gradient shading, glossy highlights, cute, kawaii, blush marks, cheerful
+  smile, multiple characters, side view, back view, text

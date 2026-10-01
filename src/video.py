@@ -60,6 +60,14 @@ hair, the same clothes and the same accessories. Copy the reference character ex
 Never restyle, never recolour, never add or remove detail, never redraw him in another
 art style, never smooth him into a 3D render and never turn him into a different
 character.
+
+The costume is part of that lock. Read every piece of the reference outfit before you
+start - hair and headwear, robe, sash, belt, knot, tassel, trimmings, trousers, boots
+and any accessory - and keep each piece, and the exact colour of each piece, fixed for
+the whole clip. A dark sash, belt, strap or trim stays that same dark colour in every
+single frame and never turns red or any other colour, and two parts never swap colours
+with each other. If the reference has a small red tassel hanging from a dark sash, the
+sash stays dark and only the tassel is red, in every frame.
 """
 
 STILL_CAMERA = """\
@@ -72,25 +80,29 @@ and the viewing angle never changes.
 """
 
 WALK_BODY = """\
-Only his own legs, arms, hips and head move: he walks as if he were on a treadmill
+Only his own legs, arms, hips and head move: he runs as if he were on a treadmill
 that is holding him in place.
 
-He is walking towards the {facing}, so he faces {facing} for the whole clip: a
-three-quarter view turned to the {facing}, with his {facing} side towards the viewer,
-the way a side-scrolling game character walks {facing}. He never turns back to face
-the camera and never turns around.
+He keeps facing the viewer for the whole clip - exactly the same front view as the
+reference, the same head, the same face, both eyes visible and both shoulders square
+to the camera. He never turns to the side, never goes into a three-quarter view, never
+shows a profile and never turns around. In this game every character is drawn facing
+the camera and the engine mirrors the sprite left and right, so the drawing must not
+do that turning itself.
 
-The walk cycle has to be clear and easy to read: the legs swing well forward and well
-back with a visible stride, the knees bend on the passing pose, the hips and shoulders
-counter-rotate, and the arms swing opposite to the legs. It has to look like real
-walking, not like standing still and shuffling.
+The run cycle has to be clear and easy to read at gameplay scale: the knees lift
+alternately with a visible pump, the feet leave the ground one at a time, the body
+bobs a little with each step, the arms swing opposite to the legs and the shoulders
+counter-rotate. It has to look like running, not like standing still and shuffling,
+and not like a slow walk.
 """
 
 IDLE_BODY = """\
-He is standing still, facing {facing} in the same three-quarter view as the reference,
-with his weight settled evenly on both feet and his arms relaxed at his sides. He
-does not walk, does not take a step and does not turn: only a slow breath in the chest
-and shoulders, a small bob of the head and a light sway of the arms, small and calm.
+He is standing still in exactly the same front view as the reference, facing the
+viewer, with his weight settled evenly on both feet and his arms relaxed at his sides.
+He does not walk, does not take a step and does not turn: only a slow breath in the
+chest and shoulders, a small bob of the head and a light sway of the arms, small and
+calm.
 """
 
 HIT_BODY = """\
@@ -112,6 +124,12 @@ his guard.
 Both feet stay planted on the same spot of ground for the whole clip: he never steps,
 never jumps, never hops and never slides, and the distance between his feet does not
 change. The whole action is read from the waist up and from the arm that swings.
+
+Keep the swing compact and keep it inside the frame. At the furthest point of the
+strike his fist stops about one head-width in front of his chest and there is still a
+clear band of empty green beyond it - the arm must not reach the edge of the image at
+any point, not even for a single frame. He is not launching a wide roundhouse blow
+that leaves the picture; it is a short, snappy strike.
 """
 
 DEAD_BODY = """\
@@ -132,8 +150,9 @@ He performs one clean {motion} action, played in place. The pose changes clearly
 that the action reads as {motion} from the first frame to the last, and the clip plays
 through one complete cycle that closes on the pose it started from.
 
-He faces {facing} for the whole clip and stays on exactly the same spot of ground: his
-feet do not travel, he never leaves the frame and he never changes size.
+He keeps facing the viewer in the same front view as the reference for the whole clip
+and stays on exactly the same spot of ground: his feet do not travel, he never leaves
+the frame and he never changes size.
 """
 
 FRAMING = """\

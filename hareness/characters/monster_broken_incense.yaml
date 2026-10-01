@@ -1,0 +1,69 @@
+id: monster_broken_incense
+title: Broken Incense
+name: 断香（人间·简笔 Q 版·庙里没人续的香）
+category: monster
+style: chibi_simple
+tags: [monster, enemy, human, tier1, chibi, simple, shrine, turret]
+aspect_ratio: "1:1"
+count: 2
+
+notes: >
+  人间第一层的第五只杂兵，也是这一层**唯一不追人的一只**：
+  它钉在原地，从远处把积下来的香灰吹向玩家。四个近战杂兵教的是"怎么对拼"，
+  它教的是"怎么站位"——房间里有它，玩家就不能一路背对着往后退。
+  设计见 Assets/Design~/Characters/断香.md。
+
+  记忆点是「三足香炉 + 溢出来的积灰 + 三炷高低不齐的香」，
+  不是「火盆」、不是「香炉妖怪」、更不是「带脸的怪物」：它没有脸。
+
+animations: [idle, walk, hit, attack, dead]
+
+animation_hint: >
+  keep it a censer, not a creature: the same three-legged bronze vessel in every
+  frame, with the ash overflow ring, the three incense sticks of uneven height
+  (the middle one broken short) and the dark scorch streak on the body. It has NO
+  face, NO eyes, NO mouth and NO limbs. Keep the grey-green bronze, the ash-white
+  overflow and the vermilion incense sticks exactly as in the portrait, and keep
+  the whole thing upright and its three legs planted in every frame.
+
+prompt: |
+  A game sprite of {name}, a low-level Chinese folk enemy from an abandoned village
+  shrine, drawn as a front-facing idle game pose. {body} {pose}
+
+  It is a censer - a three-legged Chinese incense burner - that a village left
+  standing on its altar. Build it as a VESSEL, not as a creature: a short round
+  bronze bowl with a flared rim, three short sturdy legs, and two small handles on
+  the rim. It has no face, no eyes, no mouth, no arms and no feet walking: the whole
+  body is one piece of cast metal.
+
+  The bowl is filled to overflowing with pale grey-white incense ash, and the ash
+  has spilled over the rim so a soft ring of ash sits around the top edge, about to
+  fall. Three incense sticks stand in the ash, of clearly uneven height: one tall and
+  still lit with a faint ember at its tip, one medium and smoking very thinly, and the
+  middle one broken off short. A single thread of pale smoke rises and barely moves.
+
+  Colour: the vessel is grey-green aged bronze with darker soot in the crevices; the
+  ash is pale grey-white; the incense sticks are dull vermilion with dark burnt tips;
+  one long dark scorch streak runs down the front of the body where the incense has
+  burned against it for years. Nothing else is coloured.
+
+  Keep the shapes simple and readable at gameplay scale. It should read as a heavy
+  little shrine censer that is over-full and slightly wrong - never as a brazier of
+  flame, never as a pot, never as a living animal.
+
+variations:
+  - body: It is a grey-green bronze censer with two small loop handles and ash
+      spilling over the rim, the incense sticks standing straight.
+    pose: Sitting perfectly still and front-facing, its three legs planted, the ash
+      ring heaped and overflowing on one side, the smoke thread rising straight up.
+  - body: The same censer, but the ash has crusted into cracked grey layers and one
+      of its legs is chipped at the foot.
+    pose: Sitting perfectly still and front-facing, tilted very slightly as if a leg
+      had sunk, the broken middle incense stick leaning against the tall one.
+
+negative: >-
+  brazier, fire bowl, open flame, bonfire, cooking pot, cauldron, kettle, skeleton,
+  skull, face, eyes, mouth, teeth, arms, hands, legs walking, feet, wings, tail,
+  living animal, ghost tail floating, blood, gore, cute, kawaii, blush marks, smile,
+  glossy highlights, gradient shading, ornate dragon decoration, gold, jewels,
+  multiple characters, side view, back view, text

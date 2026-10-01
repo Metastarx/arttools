@@ -1,0 +1,47 @@
+id: item_huiqi_fu
+title: Breath-Returning Talisman
+name: 回气符（道具图标·什么也没画的空符）
+category: item
+style: ui_icon
+tags: [item, talisman, charm, consumable, icon, human, tier1]
+aspect_ratio: "1:1"
+count: 3
+
+notes: >
+  游戏里第三件道具（`item.huiqi_fu`，设定见 Assets/Design~/Items/回气符.md）。
+  记忆点是「**一张什么也没画的空符**」：它不往外放力量，只往回收。
+  所以**绝对不能**画成一张写满字的符——正因为它空，才要让人一眼记住它是空的。
+  纸面只留一点点洇开的墨痕，像写过又被水洗掉。
+
+prompt: |
+  A game item icon of {name}: one single Chinese paper talisman, drawn straight-on
+  and centred, filling most of the square.
+
+  It is a narrow vertical strip of pale yellow paper with a torn, uneven top edge.
+  The important thing is what is NOT there: the paper is almost entirely BLANK.
+  There is no writing and no drawing on it - only a few very faint grey ink
+  ghosts, as if something had been written and then washed away, and one soft
+  grey wash where the paper has been damp.
+
+  The paper is pale warm yellow with slightly darker edges and one small fold
+  crease. The ink ghosts are barely visible. Nothing else is coloured - no
+  vermilion at all.
+
+  Flat colour, thick hand-drawn outline on the paper itself, no gradient, no glow.
+
+variations:
+  - variant: >-
+      The talisman hangs perfectly straight and still, blank, with two faint
+      washed-out ink ghosts near the top.
+  - variant: >-
+      The same blank talisman curled slightly at one corner, a single soft grey
+      damp wash across its middle where the ink used to be.
+  - variant: >-
+      The same blank talisman with one tiny circular pale-grey ring in the middle,
+      like a breath that has just come back and is settling.
+
+negative: >-
+  writing, chinese characters, hanzi, calligraphy, readable text, vermilion
+  strokes, red ink, drawn symbols, seal, lightning, glow, aura, sparkle,
+  gradient, 3d, plastic, glossy, human, hand, face, multiple objects, frame,
+  border, banner, paper stack, book, scenery, floor, ground shadow

@@ -1,0 +1,57 @@
+id: brand_game_icon
+title: WuChang Xing
+name: 无常行·应用图标（品牌 mark）
+category: brand
+style: brand_icon
+tags: [brand, icon, app, wuchangxing]
+aspect_ratio: "1:1"
+count: 4
+
+notes: >
+  上架用的应用图标（exe 图标 / Steam 商店头像）。mark 只讲两件事：
+  **界墙**（一笔粗墨圈，断口就是"被忘了"的那道缝）与**符箓**（朱砂纸符，人间唯一还能压住妖祟的东西）。
+  合起来就是"一个人拿着符，去补一道没人在守的墙"。
+  不出现汉字：模型写中文必糊，mark 靠形状认，不靠字。
+  成品落点见 Assets/Design~/README.md 与 Harness~/DECISIONS.md（ADR-055）。
+
+prompt: |
+  An app-icon emblem for a Chinese folk 2D action roguelike called "WuChang Xing".
+
+  {emblem}
+
+  Build it as ONE compact mark made of exactly two things: a thick hand-drawn
+  black ink ring - the broken boundary between the human world and what leaks in
+  through it - and a single narrow vermilion paper talisman, the game's one-shot
+  written charm, marked with a few rough brush strokes that suggest writing
+  without being any real characters. A little aged-beige paper edge and one small
+  dot of dull gold on the talisman are allowed; nothing else is coloured.
+
+  Everything is flat colour with rough brush edges, drawn the way a woodblock
+  stamp is cut, not like an illustration: no shading, no gradient, no glow. The
+  black ink and the vermilion paper must be the two strongest things in the
+  image, with the green background completely empty around them.
+
+variations:
+  - emblem: >-
+      The black ink ring is one unbroken, slightly wobbly brush circle, and the
+      narrow vermilion talisman hangs straight down across the middle of it,
+      a little longer than the ring so its torn bottom edge sticks out below.
+  - emblem: >-
+      The black ink ring is broken open at the upper right by a jagged crack,
+      and the narrow vermilion talisman crosses the whole ring diagonally, its
+      torn top edge curling as if caught in a draft.
+  - emblem: >-
+      The black ink ring is drawn very slightly from below and its inside is
+      filled with flat solid black, and the narrow vermilion talisman hangs down
+      inside that black void as the only coloured thing in the image.
+  - emblem: >-
+      A single very thick black brush arc opens at the bottom like a gate, and
+      the narrow vermilion talisman stands upright inside the opening, its lower
+      end hanging below the arc.
+
+negative: >-
+  text, letters, numbers, chinese characters, hanzi, calligraphy, seal script,
+  watercolour wash, soft shading, gradient, glow, sparkle, 3d render, plastic,
+  glossy, human figure, face, skull, ghost, animal, weapon, lantern, coin,
+  frame, border, banner, ribbon, clutter, multiple objects, background scenery,
+  rounded-square app tile, phone mockup

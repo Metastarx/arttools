@@ -1,0 +1,20 @@
+id: brand_icon
+name: 品牌图标（应用图标 / 商店头像）
+# 画风来自 style/_common.yaml（自动继承）
+prompt_prefix: >-
+  A single app-icon emblem for the project, drawn in the same Chinese ink-line
+  language as the game art: ONE bold simplified iconic shape, thick irregular
+  black brush outline, slightly rough brush edges, flat muted colour fills, no
+  interior clutter, straight-on view, perfectly centred, no scenery and no
+  ground, a silhouette that is still clearly readable when the whole image is
+  shrunk to 64x64 pixels.
+quality_suffix: >-
+  One object only, perfectly centred with even generous padding on all four
+  sides, flat solid pure green (#00F700) background all around it, crisp
+  high-contrast edges, no cast shadow and no glow on the background.
+negative: >-
+  text, letters, numbers, chinese characters, calligraphy, seal script,
+  watermark, signature, drop shadow, glow, halo, frame, border, banner, ribbon,
+  badge ring with text, multiple objects, cluttered detail, human hands, blurry,
+  photo, mockup, device mockup, rounded-square app tile
+aspect_ratio: "1:1"

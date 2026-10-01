@@ -94,6 +94,8 @@ class GenerateOptions:
     reference: Optional[List[Path]] = None
     # "edit" (redraw the reference) or "copy" (the reference *is* the asset).
     reference_mode: Optional[str] = None
+    # None -> the spec decides (``opaque: true``); True/False -> force it for this run.
+    opaque: Optional[bool] = None
 
 
 def _flag(value: Any, default: bool) -> bool:
@@ -125,14 +127,25 @@ class CutoutPlan:
     alpha_threshold: int = 8
 
 
-def resolve_cutout(options: "GenerateOptions", common: Optional[CommonBlock] = None) -> CutoutPlan:
-    """Merge the CLI flags with the ``pipeline`` block of ``hareness/common.yaml``."""
+def resolve_cutout(
+    options: "GenerateOptions",
+    common: Optional[CommonBlock] = None,
+    opaque: bool = False,
+) -> CutoutPlan:
+    """Merge the CLI flags with the ``pipeline`` block of ``hareness/common.yaml``.
+
+    ``opaque`` (a spec with ``opaque: true``, or ``--opaque``) means the returned image
+    *is* the asset: there is no green screen to key and nothing to trim to. Keying it
+    would eat the pixels along the tile edges, and despill would tint the whole surface -
+    which is exactly the pair of operations a seamless texture must not go through.
+    """
     block = common if common is not None else CommonBlock(enabled=False)
+    opaque = bool(opaque)
     plan = CutoutPlan()
     plan.enabled = (
         bool(options.cutout)
         if options.cutout is not None
-        else _flag(block.pipeline_value("background.enabled", True), True)
+        else (False if opaque else _flag(block.pipeline_value("background.enabled", True), True))
     )
     plan.key_color = (
         options.key_color
@@ -144,11 +157,15 @@ def resolve_cutout(options: "GenerateOptions", common: Optional[CommonBlock] = N
         if options.cutout_tolerance is not None
         else _number(block.pipeline_value("background.tolerance", 48), 48)
     )
-    plan.despill = _flag(block.pipeline_value("background.despill", True), True)
+    plan.despill = (
+        False
+        if opaque
+        else _flag(block.pipeline_value("background.despill", True), True)
+    )
     plan.trim = (
         _flag(options.trim, True)
         if options.trim is not None
-        else _flag(block.pipeline_value("crop.trim", True), True)
+        else (False if opaque else _flag(block.pipeline_value("crop.trim", True), True))
     )
     plan.trim_padding = (
         _number(options.trim_padding, 0)
@@ -205,13 +222,24 @@ class SizePlan:
     resample: str = "lanczos"
 
 
-def resolve_sizes(options: "GenerateOptions", common: Optional[CommonBlock] = None) -> SizePlan:
-    """Merge ``--sizes`` with the ``pipeline.sizes`` block of ``common.yaml``."""
+def resolve_sizes(
+    options: "GenerateOptions",
+    common: Optional[CommonBlock] = None,
+    opaque: bool = False,
+) -> SizePlan:
+    """Merge ``--sizes`` with the ``pipeline.sizes`` block of ``common.yaml``.
+
+    A full-bleed texture is delivered as the one file it is: the 512 / 256 copies would
+    only raise the question of which of the three is the real tile.
+    """
     block = common if common is not None else CommonBlock(enabled=False)
     plan = SizePlan()
     if options.sizes is not None:
         plan.max_sides = _sides(list(options.sizes))
         plan.enabled = bool(plan.max_sides)
+    elif opaque:
+        plan.max_sides = ()
+        plan.enabled = False
     else:
         plan.enabled = _flag(block.pipeline_value("sizes.enabled", True), True)
         plan.max_sides = _sides(block.pipeline_value("sizes.max_sides", [512, 256]))
@@ -330,6 +358,16 @@ def _resolve_setting(
     return override
 
 
+def _wants_opaque(spec: PromptSpec, options: "GenerateOptions") -> bool:
+    """Is this asset a full-bleed texture? ``--opaque`` / ``--no-opaque`` beat the spec.
+
+    The spec is where the answer normally lives: "a ground tile is a texture, a monster is a
+    cut-out" is a property of the asset, not of the run. The flags exist for experiments.
+    """
+    override = getattr(options, "opaque", None)
+    return bool(spec.opaque) if override is None else bool(override)
+
+
 def _save_image(data: bytes, out_dir: Path, stem: str, extension: str) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / (stem + "." + extension)
@@ -372,8 +410,9 @@ def generate_spec(
         spec.image_size,
         (style.image_size if style else None) or common.default_for("image_size"),
     )
-    cutout = resolve_cutout(options, common)
-    sizes = resolve_sizes(options, common)
+    opaque = _wants_opaque(spec, options)
+    cutout = resolve_cutout(options, common, opaque)
+    sizes = resolve_sizes(options, common, opaque)
     source = resolve_source(options, common)
     references = resolve_references(spec, options, settings)
     reference_mode = resolve_reference_mode(spec, options, common)

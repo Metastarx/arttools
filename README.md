@@ -618,6 +618,8 @@ origin/
 | 幂等 | 已经透明的图再跑一次不会二次破坏，也不会重复裁剪 | |
 | 双通道 | 如果模型这次直接返回了真 alpha（`gpt-image-2.5-sunburst` 有时会给），就跳过抠绿直接裁剪 | |
 
+**整幅就是资源本身的贴图（地块、UI 底板）走 `--opaque`：上表里的抠绿、裁剪、交付尺寸三步都不执行**，见下面「全幅贴图」那一节。
+
 ```powershell
 python main.py gen hero_knight_2d --count 4                  # 出 4 张，自动抠绿+裁剪
 python main.py gen ui_button_panel --key-color auto          # 背景色不是绿时自动探测
@@ -630,6 +632,26 @@ python main.py gen hero_mage_2d --no-max-px                  # 不限制原图�
 python main.py cutout "resource/image/20260920/20260920-223340_hero_knight_2d" -v   # 对已有图重跑抠图+裁剪
 ```
 
+### 全幅贴图：`--opaque`（不抠绿、不裁边）
+
+有些资源**整幅就是资源本身**：四边就是接缝，抠绿与裁剪对它都是破坏。
+
+```powershell
+python main.py gen env_floor_stone --opaque       # 整幅即资源
+python main.py gen ui_button_panel --opaque       # 边框画在图里，裁掉就废了
+python main.py gen env_floor_stone --no-opaque    # 临时按普通资源走一遍
+```
+
+- 走 `--opaque` 时拼提示词换用 `common.yaml` 的 `opaque_preamble` / `opaque_requirements`
+  （整幅即资源、四边无缝、环境光均匀、俯视正交、明暗压窄），固定负面词也换成 `opaque_negative`
+  ——默认那套里有 `floor / ground / platform / scenery / environment`，那是给「不许踩在地上的角色」
+  写的，对地块正好相反。
+- 输出侧同时关掉：抠绿、去溢色、裁剪，以及 `512/256` 副本（留三份只会让人问「哪份才是真的地砖」）。
+  命令行显式写 `--sizes` 仍然优先。
+- 写进规格就是永久生效：`opaque: true`；`negative_remove: [词, …]` 再从负面词里摘掉几条本项目特有的。
+- **无缝是画出来的，不是后处理补得出来的**：出图之后量一遍再接
+  （`ResourceSource/Tools/measure-tile-seams.ps1`，看 seam 是否接近 1）。人眼对 1024 原图上的一条
+  淡缝不敏感，缩进游戏里反而明显。
 ## 立绘与参考图（风格一致性）
 
 风格会漂，根因是「用文字描述画风」时，模型每次都要按自己的理解重画一遍。
